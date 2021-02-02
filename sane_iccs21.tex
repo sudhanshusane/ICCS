@@ -1,0 +1,263 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{microtype}                 % use micro-typography (slightly more compact, better to read)
+\PassOptionsToPackage{warn}{textcomp}  % to address font issues with \textrightarrow
+\usepackage{textcomp}                  % use better special symbols
+\usepackage{mathptmx}                  % use matching math font
+\usepackage{times}                     % we use Times as the main font
+\usepackage{enumitem}
+\renewcommand*\ttdefault{txtt}         % a nicer typewriter font
+%\usepackage{cite}                      % needed to automatically sort the references
+\usepackage{tabu}                      % only used for the table example
+\usepackage{booktabs}                  % only used for the table example
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{subcaption}
+\usepackage{framed}
+\usepackage{lineno,hyperref}
+\newcommand{\fix}[1]{\textcolor{red}{\textbf{\textit{#1}}}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\usepackage[dvipsnames]{xcolor,colortbl}
+\newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
+\definecolor{Gray}{gray}{0.85}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{LightRed}{rgb}{1,0.88,1}
+
+\newcolumntype{a}{>{\columncolor{Gray}}c}
+\newcolumntype{b}{>{\columncolor{LightCyan}}c}
+\newcolumntype{d}{>{\columncolor{LightRed}}c}
+
+\usepackage[subrefformat=parens,labelformat=parens]{subcaption}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{collcell}
+
+\newenvironment{tightEnumerate}{
+\begin{enumerate}
+        \setlength{\itemsep}{1pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\parsep}{0pt}
+}{\end{enumerate}
+}
+
+\newenvironment{tightItemize}{
+\begin{itemize}
+        \setlength{\itemsep}{1pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\parsep}{0pt}
+}{\end{itemize}
+}
+
+
+\newcommand*{\MinNumberR}{0.0}%
+\newcommand*{\MaxNumberR}{20}
+\newcommand{\ApplyGradientR}[1]{%
+        \pgfmathsetmacro{\PercentColor}{100.0*(#1-\MinNumberR)/(\MaxNumberR-\MinNumberR)}
+        \hspace{-0.33em}\colorbox{red!\PercentColor!white}{#1}
+}
+
+\newcolumntype{R}{>{\collectcell\ApplyGradientR}c<{\endcollectcell}}
+
+
+
+\newcommand*{\MinNumberD}{0}%
+\newcommand*{\MaxNumberD}{100}
+\newcommand{\ApplyGradientD}[1]{%
+        \pgfmathsetmacro{\PercentColor}{100.0*(#1-\MinNumberD)/(\MaxNumberD-\MinNumberD)}
+        \hspace{-0.33em}\colorbox{red!\PercentColor!white}{#1}
+}
+
+
+
+
+
+
+
+\newcolumntype{D}{>{\collectcell\ApplyGradientD}c<{\endcollectcell}}
+
+
+
+\newcommand*{\MinNumberA}{0.0}%
+\newcommand*{\MaxNumberA}{0.08}
+\newcommand{\ApplyGradientA}[1]{%
+        \pgfmathsetmacro{\PercentColor}{100.0*(#1-\MinNumberA)/(\MaxNumberA-\MinNumberA)}
+        \hspace{-0.2em}\vspace{-0.05em}\colorbox{orange!\PercentColor!white}{#1}
+}
+
+\newcolumntype{A}{>{\collectcell\ApplyGradientA}c<{\endcollectcell}}
+
+
+\newcommand*{\MinNumberB}{0.0}%
+\newcommand*{\MaxNumberB}{10.0}
+\newcommand{\ApplyGradientB}[1]{%
+        \pgfmathsetmacro{\PercentColor}{100.0*(#1-\MinNumberB)/(\MaxNumberB-\MinNumberB)}
+        \hspace{-0.2em}\colorbox{orange!\PercentColor!white}{#1}
+}
+
+\newcolumntype{B}{>{\collectcell\ApplyGradientB}c<{\endcollectcell}}
+
+
+\newcommand*{\MinNumberC}{0.0}%
+\newcommand*{\MaxNumberC}{0.44}
+\newcommand{\ApplyGradientC}[1]{%
+        \pgfmathsetmacro{\PercentColor}{100.0*(#1-\MinNumberC)/(\MaxNumberC-\MinNumberC)}
+        \hspace{-0.2em}\colorbox{orange!\PercentColor!white}{#1}
+}
+
+\newcolumntype{C}{>{\collectcell\ApplyGradientC}c<{\endcollectcell}}
+
+
+\newcommand*{\MinNumberN}{0.0}%
+\newcommand*{\MaxNumberN}{0.75}
+\newcommand{\ApplyGradientN}[1]{%
+        \pgfmathsetmacro{\PercentColor}{100.0*(#1-\MinNumberN)/(\MaxNumberN-\MinNumberN)}
+        \hspace{-0.33em}\colorbox{red!\PercentColor!white}{#1}
+}
+
+\newcolumntype{N}{>{\collectcell\ApplyGradientN}c<{\endcollectcell}}
+
+\usepackage{epstopdf}
+\epstopdfsetup{outdir=./}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+% \renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\begin{document}
+%
+\title{Investigating the Use of In Situ Reduction \\via Lagrangian Representations for \\Cosmology and Seismology Applications}
+%
+\titlerunning{Lagrangian Representations for Cosmology and Seismology Applications}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+%\author{Sudhanshu Sane\inst{1}\orcidID{0000-1111-2222-3333} \and Hank Childs\inst{2}\orcidID{1111-2222-3333-4444}}
+%
+%\authorrunning{S. Sane et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+%\institute{SCI Institute at University of Utah, USA \and University of Oregon, USA}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+\input{abstract.tex}
+\keywords{Lagrangian analysis \and in situ processing \and vector data}
+\end{abstract}
+%
+%
+%
+
+\input{outline.tex}
+
+%\section{First Section}
+%\subsection{A Subsection Sample}
+%Please note that the first paragraph of a section or subsection is
+%not indented. The first paragraph that follows a table, figure,
+%equation etc. does not need an indent, either.
+%
+%Subsequent paragraphs, however, are indented.
+%
+%\subsubsection{Sample Heading (Third Level)} Only two levels of
+%headings should be numbered. Lower level headings remain unnumbered;
+%they are formatted as run-in headings.
+%
+%\paragraph{Sample Heading (Fourth Level)}
+%The contribution should contain no more than four levels of
+%headings. Table~\ref{tab1} gives a summary of all heading levels.
+%
+%\begin{table}
+%\caption{Table captions should be placed above the
+%tables.}\label{tab1}
+%\begin{tabular}{|l|l|l|}
+%\hline
+%Heading level &  Example & Font size and style\\
+%\hline
+%Title (centered) &  {\Large\bfseries Lecture Notes} & 14 point, bold\\
+%1st-level heading &  {\large\bfseries 1 Introduction} & 12 point, bold\\
+%2nd-level heading & {\bfseries 2.1 Printing Area} & 10 point, bold\\
+%3rd-level heading & {\bfseries Run-in Heading in Bold.} Text follows & 10 point, bold\\
+%4th-level heading & {\itshape Lowest Level Heading.} Text follows & 10 point, italic\\
+%\hline
+%\end{tabular}
+%\end{table}
+%
+%
+%\noindent Displayed equations are centered and set on a separate
+%line.
+%\begin{equation}
+%x + y = z
+%\end{equation}
+%Please try to avoid rasterized images for line-art diagrams and
+%schemas. Whenever possible, use vector graphics instead (see
+%Fig.~\ref{fig1}).
+%
+%\begin{figure}
+%\includegraphics[width=\textwidth]{fig1.eps}
+%\caption{A figure caption is always placed below the illustration.
+%Please note that short captions are centered, while long ones are
+%justified by the macro package automatically.} \label{fig1}
+%\end{figure}
+%
+%\begin{theorem}
+%This is a sample theorem. The run-in heading is set in bold, while
+%the following text appears in italics. Definitions, lemmas,
+%propositions, and corollaries are styled the same way.
+%\end{theorem}
+%%
+%% the environments 'definition', 'lemma', 'proposition', 'corollary',
+%% 'remark', and 'example' are defined in the LLNCS documentclass as well.
+%%
+%\begin{proof}
+%Proofs, examples, and remarks have the initial word in italics,
+%while the following text appears in normal font.
+%\end{proof}
+%For citations of references, we prefer the use of square brackets
+%and consecutive numbers. Citations using labels or the author/year
+%convention are also acceptable. The following bibliography provides
+%a sample reference list with entries for journal
+%articles~\cite{ref_article1}, an LNCS chapter~\cite{ref_lncs1}, a
+%book~\cite{ref_book1}, proceedings without editors~\cite{ref_proc1},
+%and a homepage~\cite{ref_url1}. Multiple citations are grouped
+%\cite{ref_article1,ref_lncs1,ref_book1},
+%\cite{ref_article1,ref_book1,ref_proc1,ref_url1}.
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+\bibliographystyle{splncs04}
+\bibliography{sane_iccs21}
+%
+%\begin{thebibliography}{8}
+%\bibitem{ref_article1}
+%Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
+%
+%\bibitem{ref_lncs1}
+%Author, F., Author, S.: Title of a proceedings paper. In: Editor,
+%F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
+%Springer, Heidelberg (2016). \doi{10.10007/1234567890}
+%
+%\bibitem{ref_book1}
+%Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
+%Location (1999)
+%
+%\bibitem{ref_proc1}
+%Author, A.-B.: Contribution title. In: 9th International Proceedings
+%on Proceedings, pp. 1--2. Publisher, Location (2010)
+%
+%\bibitem{ref_url1}
+%LNCS Homepage, \url{http://www.springer.com/lncs}. Last accessed 4
+%Oct 2017
+%\end{thebibliography}
+\end{document}

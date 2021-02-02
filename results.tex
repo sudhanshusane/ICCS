@@ -1,0 +1,133 @@
+We organize our discussion of results by application. 
+%
+Tables~\ref{table:nyx_encumbrance} and~\ref{table:sw4_encumbrance} provide information pertaining to in situ encumbrance such as concurrency information, spatial dimensions, Sim$_{cycle}$, number of particles, \textbf{InSituMem}, \textbf{Step}, and \textbf{DAV\%}, for each application. 
+%
+Figures~\ref{fig:nyx_violinplot},~\ref{fig:nyx_figure},~\ref{fig:sw4_violinplot}, and ~\ref{fig:sw4_figure} show the results of our post hoc efficacy evaluation.
+%
+For each application, the figures are annotated with configuration specifics such as the \textbf{DS}, \textbf{1:X}, and \textbf{I}.
+%
+Further, results from Lagrangian and Eulerian tests are distinguished explicitely in the captions or are labeled L$T$ and E$T$ respectively, where $T$ is the test number.
+%
+We refer to these tables and figures in our discussion that follows. 
+
+\subsection{Nyx Cosmology Simulation}
+\subsubsection{In Situ Encumbrance}
+Using all the cores of two CPUs on a single compute node, we use OpenMP to parallelize the Nyx simulation and Lagrangian VTK-m filter.
+%
+We test 2 options for grid size - $69^{3}$ and $129^{3}$ - on a single rank, and 3 particle advection workloads (1:1, 1:8, 1:27) each.
+%
+In a single compute node hour, the simulation performs 300 and 38 cycles approximately, when using $69^{3}$ and $129^{3}$ grid sizes respectively.
+%
+%In a single compute node hour, the simulation performs approximately 300 cycles for the $69^{3}$ resolution and approximately 38 cycles for the $129^{3}$ resolution.
+%
+An 8X increase in grid size results in a proportional increase in Sim$_{cycle}$ but only a small increase in particle advection costs for the same number of particles.
+%
+We expect a single rank to operate on between $32^{3}$ to $256^{3}$ grid resolutions, thus our workloads provide a representative estimate of \textbf{DAV\%}.
+%
+%For example, sampling a $256^{3}$ using a 1:8 reduction involves computing 2.1M basis trajectories. 
+
+An encouraging finding is the low in situ encumbrance when performing L-ISR on the CPUs.
+%
+As an increasingly nuymber of computationals simulations target execution on GPUs, future work can consider offloading L-ISR computation to CPUs.
+%
+Overall, considering the longer Sim$_{cycle}$ times for the Nyx simulation, and parallel compution coupled with low memory latency when using CPUs, the highest in situ encumbrance to extract a Lagrangian represenation was 0.1\% of the simulation time or under 0.06s to compute 2.1M basis trajectories per cycle.
+\input{timings_nyx.tex}
+\input{nyx_violinplot.tex}
+\input{nyx_figure.tex}
+
+\subsubsection{Post Hoc Efficacy}
+To evaluate the usefulness of Lagrangian representations to encode time-varying self-gravitating gas dynamics, we considered 3 options for data reduction (1:1, 1:8, 1:27) and 4 options for \textbf{I}~(25, 50, 100, 200).
+%
+We construct pathlines for 50,000 randomly placed particles over 400 cycles during post hoc analysis.
+%
+%We measure the error of reconstruction of each pathline by comparing to ground truth trajectories.
+%
+%Additionally, we compute pathlines using Eulerian representations at full spatial resolution and same options for \textbf{I}.
+%
+We visualize the distribution of reconstruction error for all tests in Figure~\ref{fig:nyx_violinplot}.
+%We measure the error or reconstruction of each pathline. and visualize the distribution in Figure~\ref{} along with  
+%
+
+The self-gravitating gas dynamics of this simulation produce a vector field that captures the transport of randomly distributed particles to multiple high density clusters.
+%
+Particles travel with increasing velocity as clusters increase in density.
+%
+For this case, we find that Eulerian temporal subsampling performs better for small values of \textbf{I}.
+%
+This can be expected as reconstruction using an Eulerian representation and fourth-order Runge Kutta interpolation remain more accurate than second-order barycentric coordinates interpolation employed to interpolate Lagrangian representations~\cite{bujack2015lagrangian}\cite{hummel2016error}.
+%
+%This can be expected for two reasons: 1) for small values of \textbf{I}, trajectories computed using fourth-order RK4 and Eulerian representations can remain more accurate than second-order barycentric coordinates interpolation and Lagrangian representations (although these are computed in situ using fourth-order RK4), and 2) use of several short Lagrangian flow maps can result in a higher error propagation and accumulation~\cite{bujack2015lagrangian,hummel2016error}.
+%
+However, as the value of \textbf{I} increases, the distribution of error for the Lagrangian tests indicates that a larger percentage of samples are reconstructed more accurately.
+%
+In contrast, Eulerian representations become less effective at reconstructing the vector field due to increased numerical approximation and accumulating error.
+%
+The Lagrangian representation computed in situ using RK4 encodes the behavior over an interval of time more accurately for the majority of samples.
+%
+%With regard to spatial sampling resolution, for the grid size we consider, we find that reducing the number of samples has a considerable impact on the efficacy of reconstruction.
+%
+%This indicates that small changes in starting location can result in particles transporting to different clusters.
+%
+
+We use pathlines with manually set transfer functions to visualize the evolution and clustering of particles in regions of high density.
+%
+The total size of the simulation vector field data used to compute the ground truth is 5.3GB.
+%
+We visualize a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
+%To visualize the evolution and clustering of particles in regions of high density, we visualize a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
+%
+We note that Lagrangian configurations (L04 to L12) using larger values of \textbf{I} are more accurate statistically~(Figure~\ref{fig:nyx_violinplot}).
+%
+%
+The Lagrangian representations demonstrate the ability to closely reconstruct regions where dense clusters are formed while requiring a fraction of the total simulation data size.
+%
+For example, the 1:8 Lagrangian configuration enables the visualization of transport to dense clusters while requiring only 27MB, i.e., a 200X data reduction of the uncompressed vector field.
+%
+
+\subsection{SW4 Seismology Simulation}
+\subsubsection{In Situ Encumbrance}
+\input{timings_sw4.tex}
+For the SW4 simulation, we consider five grid sizes at varying concurrencies.
+%
+In each case, we used all 6 GPUs available on a compute node to execute the simulation and L-ISR.
+%
+For all L-ISR workloads tested, the execution time required per cycle remained under 1 second on average and the maximum in situ memory required by a node was 112 MB to compute the trajectories of 4.4M particles.
+%
+DAV\% was closely related to both the Sim$_{cycle}$ and \textbf{Step} cost.
+%
+Using fixed concurrency, fixed data reduction factor, and varying grid sizes, we observed DAV\% decrease from 11.67\% to 4.365\% as the grid size increased.
+%
+Using fixed concurrency, fixed grid size, and varying data reduction factor, we observed DAV\% increase from 1.201\% to 6.175\% as the number of particles increased.
+%
+
+\input{sw4_violinplot.tex}
+\input{sw4_figure.tex}
+
+\subsubsection{Post Hoc Efficacy}
+We study the reconstruction of the time-varying displacement vector field encoding wave propagation by considering 4 options for data reduction~(1:1, 1:8, 1:27, 1:64) and 1 option for \textbf{I}~(250).
+%
+The ground truth is computed using 2000 simulation cycles and requires 245 GB.
+%
+The displacement is highest near the epicenter and reduces as waves propagate further away.
+%
+For each simulation run, we measure the displacement of 200,000 samples reconstructed near the epicenter (Figure~\ref{fig:epicenter}) and 90,000 samples reconstructed in six regions away from the epicenter (Figure~\ref{fig:clusters}).
+%
+We provide the ground truth (GT) distribution of displacement.
+%
+In both cases, Lagrangian representations offer significant data reduction while maintaining high accuracy.
+%
+We find that as the number of basis trajectories extracted reduces, the displacement for some samples can be underestimated. 
+%
+In contrast, using a temporally subsampled Eulerian representation (E01) results in significant over-estimation of displacement.
+%
+This can be expected as temporal subsampling fails to capture the transient nature of wave propagation, while Lagrangian representations encoding behavior over an interval of time remain accurate.
+%
+Compared to Figure~\ref{fig:epicenter}, samples in Figure~\ref{fig:clusters} have smaller displacement and multimodal distribution that is the result of samples collected from six regions of the domain away from the epicenter. 
+%
+
+Figure~\ref{fig:sw4_figure} visualizes the displacement field near the epicenter using multiple semi-opaque isosurfaces.
+%
+Although most regions are well reconstructed using Lagrangian representations, we find that regions of highest displacement are underestimated as the data reduction factor increases.
+%
+Overall, we find that Lagrangian representations offer high data reduction options for small loss of accuracy and should be considered more widely for seismic wave propagation vector fields.
+
