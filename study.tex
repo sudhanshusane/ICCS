@@ -2,7 +2,7 @@ This section provides an overview of our study. It is organized as follows: runt
 
 \subsection{Runtime Environment}
 \label{sec:runtime}
-Our study uses the Summit supercomputer at ORNL.
+Our study used the Summit supercomputer at ORNL.
 %
 A Summit compute node has two IBM Power9 CPUs, each with 21 cores running at 3.8 GHz and 512 GBytes of DDR4 memory.
 %
@@ -10,53 +10,53 @@ Nodes on Summit also have enhanced on-chip acceleration with each CPU connected 
 %
 Each GPU is an NVIDIA Tesla V100 with 5120 CUDA cores, 6.1 TeraFLOPS of double precision performance, and 16 GBytes of HBM2 memory.
 %
-Lastly, it uses a Mellanox EDR 100G InfiniBand, Non-blocking Fat Tree as its interconnect topology.
+Lastly, it has a Mellanox EDR 100G InfiniBand, Non-blocking Fat Tree as its interconnect topology.
 
 \subsection{Simulation Codes}
 \label{sec:simulations}
-We focus our study on 
+We focused our study on 
 %two 
 computational science applications being developed as part of the US Department of Energy Office of Science Exascale Computing Project (ECP).
 %
 %See additional material for benchmarking on a third application: the Cloverleaf3D ECP proxy simulation code~\cite{mallinson2013cloverleaf}.
-%that solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using explicit second-order method. 
+%that solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using an explicit second-order method. 
 %
 %Cloverleaf3D has been developed and used by several studies to evaluate emerging architectures and various techniques targeting Exascale applications.
 
 \textbf{Nyx:} In this cosmological simulation~\cite{almgren2013nyx}, baryonic matter is evolved by solving the equations of self-gravitating gas dynamics.
 %
-The simulation involves particles gravitating towards high density regions to form multiple clusters across the domain. 
+The simulation involves particles gravitating toward high-density regions to form multiple clusters across the domain. 
 %
 %For this simulation, we derived the velocity field using the fields of momentum and density of the gas.
 %
-One of the features of interest is the distribution of clusters of varying high densities.
+One of the features of interest is the distribution of high densities clusters.
 %
-To study the distribution, scientists currently perform statistical analysis of gas particle density in the domain at a single time slice.
+To study the distribution, scientists currently perform statistical analysis of gas particle density at a single time slice.
 %
-We investigate the potential of reduced Lagrangian representation to accurately visualize the evolution of particle distribution and the regions of high density clusters using pathlines.
+We investigated the potential of reduced Lagrangian representation to accurately visualize the particle evolution and the distribution of high-density clusters using pathlines.
 %
-At the time of this study, the Nyx simulation could execute using the CPU on a single Summit compute node.
+At the time of this study, the Nyx simulation executes using the CPU on a single Summit compute node.
 %
-For this simulation, we perform L-ISR using the CPU.
+For this simulation, we performed L-ISR using the CPU.
 
 \textbf{SW4:} In this seismology simulation~\cite{petersson2015wave}, seismic wave propagation is studied using a fourth-order method.
 %
 The application simulates waves radiating from the epicenter through viscoelastic media. 
 %
-The simulation produces multiple distinct spatial domains with a time-varying 3D displacement field.
+The simulation produced multiple distinct spatial domains with a time-varying 3D displacement field.
 %
-We operate on a single domain and use the displacement vector as input.
+We operated on a single domain and used the displacement vector as input.
 %
-We investigate how accurately we can derive and visualize the field encoding displacement over time in two settings: at the epicenter and in regions away from the epicenter.
+We investigated how accurately we can derive and visualize the field encoding displacement over time in two regions: at the epicenter and away from the epicenter.
 %
 At the time of this study, the SW4 simulation scales to a large number of ranks across several compute nodes and uses GPUs for execution on Summit.
 %
-For this simulation, we perform L-ISR using GPUs.
+For this simulation, we performed L-ISR using GPUs.
 %
 
-%\textbf{Cloverleaf3D:} We include a third mini-application for benchmarking. The Cloverleaf3D ECP proxy simulation code~\cite{mallinson2013cloverleaf} that solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using explicit second-order method.
+\textbf{Cloverleaf3D:} We include a third mini-application for a benchmarking study. The Cloverleaf3D ECP proxy simulation code~\cite{mallinson2013cloverleaf} solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using explicit second-order method.
 %
-%Cloverleaf3D has been developed and used by several studies to evaluate emerging architectures and various techniques targeting Exascale applications.
+Cloverleaf3D has been developed and used by several studies to evaluate emerging architectures and various techniques targeting Exascale applications.
 
 %
 \subsection{Experiments}

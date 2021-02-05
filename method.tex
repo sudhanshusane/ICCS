@@ -21,59 +21,66 @@ This section describes the instantiation we consider for our study.
 %
 Figure~\ref{fig:schematic} shows a high-level description of the Lagrangian in situ reduction post hoc exploration (L-ISR-PHE) workflow. 
 %
-There are many possible strategies for accomplishing the components within this workflow.
+%There are many possible strategies for accomplishing the components within this workflow.
 %
-For our study, we focus on the current best practices in this space.
+For our study, we focused on the current best practices in this space.
 %
-To describe our instantiation, the remainder of this section is divided based on two phases: in situ reduction and post hoc exploration. 
+To describe our instantiation, the remainder of this section is divided based on the two phases: in situ reduction and post hoc exploration. 
 %
-\subsubsection{In Situ Reduction}
-In the in situ phase, as a data reduction operator without any a priori knowledge, a good strategy is to place samples such that domain coverage is maintained.
+
+\textbf{In Situ Reduction}
+%In the in situ phase, for a data reduction operator without any a priori knowledge, a good strategy is to place samples such that domain coverage is maintained.
 %
-We compute multiple temporally non-overlapping sets of massless particle trajectories over the duration of the simulation.
+Based on the in situ system classification in~\cite{childs2020terminology}, our L-ISR system classifies as one with a dedicated API integration, on node proximity, direct access, a time division of execution, automatic operation, and a derived output type.
 %
-We refer to these trajectories as \textit{basis} trajectories.
+For our in situ data reduction strategy, we prioritized domain coverage.
+%
+Thus, similar to Agranovsky et al.~\cite{agranovsky2014improved}, we used uniform spatial sampling and computed sets of temporally non-overlapping basis trajectories over the duration of the simulation.
+%
+%We refer to these trajectories as \textit{basis} trajectories.
 %
 Each set of basis trajectories encodes the behavior of the time-varying vector field over a specific interval of time.
 %
-To introduce particles at the start of an interval, we use the uniform seed placement scheme by Agranovsky et al.~\cite{agranovsky2014improved}. 
+%To introduce particles at the start of an interval, we use the uniform placement scheme by Agranovsky et al.~\cite{agranovsky2014improved}. 
 %
-Using a uniform placement and resetting the particle trajectories after an interval helps maintain domain coverage and is simple to implement.
+%Using a uniform placement and resetting the particle trajectories after an interval helps maintain domain coverage and is simple to implement.
 %
-Our particle termination follows the local Lagrangian flow map model from Sane et al.~\cite{sane2020scalable}, where particles are terminated once they reach the end of the interval or exit the block.
+Our particle termination followed the local Lagrangian flow map model from Sane et al.~\cite{sane2020scalable}, where particles are terminated once they reach the end of the interval or exit the block.
 %
-Our implementation has two main knobs that control the total data storage and quality of reconstruction: number of basis trajectories, i.e., seed resolution, and frequency of storing information to disk, i.e., storage interval.
+Our implementation had two main knobs that control the total data storage and quality of reconstruction: number of basis trajectories, i.e., spatial sampling resolution, and frequency of storing information to disk, i.e., storage interval.
 %
 The effect of these settings varies depending on the underlying vector field. 
 %
 %We discuss these in~\ref{sec:workloads}.
 
-We use the Ascent~\cite{larsen2017alpine} in situ infrastructure and VTK-m~\cite{moreland2016vtk} library to implement L-ISR. 
+We used the Ascent~\cite{Larsen2017Alpine} in situ infrastructure and VTK-m~\cite{moreland2016vtk} library to implement L-ISR. 
 %
-The Ascent API can be used to integrate with an application code and access various in situ analytics capabilities.
+The Ascent API can be used to perform tightly-coupled integration with an application code and access various in situ analytics capabilities.
 %%
-The VTK-m Lagrangian filter on each rank operates independently and maintains its own list of particles and uses the existing particle advection infrastructure available in VTK-m~\cite{pugmire2018performance}.
+The VTK-m Lagrangian filter on each rank operated independently and maintained its own list of particles.
 %
-RK4 particle advection is implemented using VTK-m worklets (kernels or functors) that offer performance portability by utilizing the underlying hardware accelerators.
+We used the existing particle advection infrastructure available in VTK-m~\cite{pugmire2018performance}.
 %
-In our implementation, each Lagrangian filter stores the displacement of each particle (3 double), as well as its validity (1 boolean), i.e., whether the particle remained within the domain during the interval of calculation.
+RK4 particle advection is implemented using VTK-m worklets (kernels) that offer performance portability by utilizing the underlying hardware accelerators.
+%
+In our implementation, each Lagrangian filter stored the displacement of each particle (3 double), as well as its validity (1 boolean), i.e., whether the particle remained within the domain during the interval of calculation.
 %
 Overall, computing a Lagrangian representation increased the runtime memory cost on the simulation by approximately by four one-dimensional simulation ``fields''.
 %
-We note that simulations can have tens to hundreds of fields defined on the simulation grid and thus, this cost would likely be considered acceptable for most simulations.
+We note that simulations can have tens to hundreds of fields defined on the simulation grid, and thus, this cost would likely be considered acceptable for most simulations.
 %
-In more complicated frameworks, it is possible to associate additional information (for example, ID, age, start location, previous locations, etc.) with each particle at the cost of higher runtime memory usage and data storage.
+%In more complicated frameworks, it is possible to associate additional information (for example, ID, age, start location, previous locations, etc.) with each particle at the cost of higher runtime memory usage and data storage.
 %
 
-To compute a Lagrangian representation, the simulation has to invoke Ascent after every cycle it advances.
+To compute a Lagrangian representation, the simulation invoked Ascent after every cycle it advanced.
 %
-Ascent accesses the simulation vector field data and consequently invokes the Lagrangian filter. 
+Ascent accessed the simulation vector field data and consequently invoked the Lagrangian filter. 
 %
-The Lagrangian filter uses the vector field to advance particles, and triggers the storage of trajectories at the end of an interval.
+The Lagrangian filter used the vector field to advance particles, and triggered the storage of trajectories at the end of an interval.
 %
 %In our implementation, following previous work~\cite{agranovsky2014improved}\cite{sane2018revisiting}\cite{sane2020scalable}, a trajectory in the Lagrangian representation is stored using a start and end location.
 %
-All the steps from creating an instance of Ascent to specifying parameters and invoking the VTK-m Lagrangian filter require only 23 lines of code (C++) and less is a JSON input file is used.
+For integration, all the steps involved --- creating an instance of Ascent, specifying parameters, and invoking the VTK-m Lagrangian filter --- required only 23 lines of code (C++). % and less is a JSON input file was used.
 %
 %The code sample below shows an Ascent integration and invocation of the Lagrangian filter in C++. 
 %
@@ -114,17 +121,17 @@ All the steps from creating an instance of Ascent to specifying parameters and i
 %
 %For every Eulerian configuration, we store the full spatial resolution of the simulation domain under consideration.
 %
-%
-\subsubsection{Post Hoc Exploration}
-For post hoc analysis, new particle trajectories can be computed by interpolating basis trajectories that were extracted in situ.
+
+\textbf{Post Hoc Exploration}
+For post hoc analysis, new particle trajectories are computed by interpolating basis trajectories that were extracted in situ.
 %
 The essential operations involved in constructing new particle trajectories are identifying which basis trajectories to follow and then performing interpolation.
 %
-Based on the study of accuracy of various Lagrangian-based advection schemes in~\cite{agranovsky2015subsampling}, our study employs a Delaunay triangulation to identify the neighborhood of valid basis trajectories and second-order barycentric coordinates interpolation.
+Based on the study of accuracy of various Lagrangian-based advection schemes in~\cite{agranovsky2015subsampling}, our study employed a Delaunay triangulation to identify the neighborhood of valid basis trajectories and second-order barycentric coordinates interpolation.
 %
 We used the CGAL~\cite{fabri2011cgal} library to construct and search the Delaunay triangulation.
 %
-After reconstructing new pathlines or deriving new scalar fields from the data extracted in situ, we use VisIt~\cite{childs2012visit} to generate visualizations.
+After reconstructing new pathlines or deriving new scalar fields from the data extracted in situ, we used VisIt~\cite{childs2012visit} to generate visualizations.
 %\subsection{Evaluation Criteria}
 %\label{sec:evaluation}
 %In this study, we consider the following four evaluation criteria (EC) across the workflow:
