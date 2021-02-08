@@ -1,55 +1,8 @@
 \setlength{\belowdisplayskip}{3pt} \setlength{\belowdisplayshortskip}{3pt}
 \setlength{\abovedisplayskip}{3pt} \setlength{\abovedisplayshortskip}{3pt}
 
-\subsection{Frames of Reference}
-%
-In fluid dynamics, there are two frames of reference to observe fluid motion: Eulerian and Lagrangian.
-%
-With the Eulerian frame of reference, the observer is in a fixed position.
-%
-With the Lagrangian frame of reference, the observer is attached to a fluid parcel and is moving through space and time.
-
-%
-Storage of a flow field in an Eulerian representation is typically done by means of its velocity field.
-%
-A velocity field $v$ is a time-dependent vector field that maps each point $x\in \mathbb R^d$ in space to the velocity of the flow field for a given time $t\in \mathbb R$
-%
-\begin{eqnarray}
-{v} : \mathbb R^d \times \mathbb R \to \mathbb R^d,\; x,t \mapsto v(x,t)
-\end{eqnarray}
-
-%In a practical setting, the vector field is defined over a fixed, discrete mesh and represents the state of the flow field at a specific instant of time or time slice, i.e., at a specific simulation time and cycle.
-%
-In a practical setting, a flow field at a specific time/cycle is defined as vector data on a fixed, discrete mesh.
-%
-Time-varying flow is represented as a collection of such data over a variety times/cycles.
-
-
-Storage of a flow field in a Lagrangian representation is done by means of its flow map $F_{t_0}^{t}$.
-%
-The flow map is comprised of the starting positions of massless particles $x_0$ at time $t_0$ and their respective trajectories that are interpolated using the time-dependent vector field.
-%
-Mathematically, a flow map is defined as the mapping
-\begin{eqnarray}
-F_{t_0}^{t}(x_0):\mathbb R \times \mathbb R \times \mathbb R^d \to \mathbb R^d,\; t \times t_0 \times x_0 \mapsto F_{t_0}^{t}(x_0) = x(t)
-\end{eqnarray}
-%
-of initial values $x_0$ to the solutions of the ordinary differential equation
-%
-\begin{eqnarray}
-\frac{d}{dt}x(t) = v(x(t),t)
-\end{eqnarray}
-
-In a practical setting, the flow map is represented as sets of particle trajectories calculated in the time interval $[t_0,t]\subset \mathbb R$.
-%
-The stored information, encoded in the form of known particle trajectories (i.e., a Lagrangian representation), encodes the behavior of the time-dependent vector field over an interval of time.
-%
-%
-%Although the frames of reference are theoretically equivalent~\cite{bujack2015lagrangian}, their application in practical settings varies. 
-%
-%Our interest with this study is the practical setting, specifically for the \textbf{EUS} problem.
-%
-
+\input{framesofreference.tex}
+\vspace{-1mm}
 \subsection{Lagrangian Analysis}
 Within the vector field analysis and visualization community, Lagrangian methods have been increasingly researched in the past decade. 
 %
@@ -67,23 +20,26 @@ Agranovsky et al.~\cite{agranovsky2014improved} conducted the seminal work to ev
 %
 To maintain domain coverage, the study proposed the use of uniform spatial sampling to extract sets of temporally non-overlapping basis trajectories.
 %
-Next, Sane et al.~\cite{sane2018revisiting} studied the use of a fixed storage budget and a wide range of spatiotemporal configurations.
+Sane et al.~\cite{sane2018revisiting} studied performance across a range of spatiotemporal configurations when operating using a fixed storage budget.
 %
-However, a shortcoming of both studies is the measure of efficacy using a single quantitative average error for a limited set of applications.
+%Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} used embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualized a derived scalar field representing trajectory density.
+%However, a shortcoming of both studies is the measure of efficacy using a single quantitative average error for a limited set of applications.
 %
-Further, all experiments were conducted in a theoretical in situ setting, i.e., files were loaded from disk. rather than integration with a simulation. 
+The experiments in these works were conducted in a theoretical in situ setting, i.e., files were loaded from disk. %rather than integration with a simulation. 
 %
-Such a theoretical set up fails to capture the cost of invoking in situ processing every cycle in a tightly-coupled system.
+%Such a theoretical set up fails to capture the cost of invoking in situ processing every cycle in a tightly-coupled system.
 %
-More recently, Jakob et al.~\cite{Jakob20} provide in situ encumbrance costs for a tightly-coupled integration with an open source CFD solver on HPC resources.
 %
-However, the largest grid size per rank in this study was $4\times4$.
+Most recently, Jakob et al.~\cite{Jakob20} train a DNN to upsample FTLE visualizations derived from reduced Lagrangian representations. 
 %
-Thus, in addition to limited evaluations of efficacy, current literature lacks a measure of in situ encumbrance in representative settings.
+To generate training data, they first compute Lagrangian representations of a 2D flow field using a tightly-coupled integration with an open source CFD solver on HPC resources and report in situ processing costs.
+%
+However, the grid size of $4\times4$ per rank used in the study is not representative of real-world applications.
+%
+Thus, current literature lacks in situ encumbrance measurements in representative settings.
 %
 %Our study explores this space by investigating the benefits and limitations of using reduced Lagrangian representations for previously unexplored time-varying vector fields.
 
-%Recently, Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} use embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualize a derived scalar field representing trajectory density.
 %
 %As such, prior works considering reduced Lagrangian representations have been restricted to analytical, ocean or climate data.
 %
@@ -100,7 +56,7 @@ Although these strategies improved accuracy, they increased computation costs an
 To address scalability challenges of extracting a Lagrangian representation in distributed memory, Sane et al.~\cite{sane2020scalable} explored an accuracy-performance tradeoff and demonstrated the use of a communication-free model that stored only trajectories that remain within the rank domain during the interval of computation.
 %
 
-Several prior works have presented strategies for post hoc reconstruction.
+Prior works have presented research pertaining to post hoc reconstruction using Lagrangian-based interpolation schemes.
 %
 Hlawatsch et al.~\cite{hlawatsch2011hierarchical} proposed a hierarchical reconstruction scheme that can improve accuracy, but relies on access to data across multiple time intervals.
 %
@@ -110,11 +66,12 @@ Further, Chandler et al.~\cite{chandler2016analysis} identified correlations bet
 %
 Bujack et al.~\cite{bujack2015lagrangian} evaluated the use of parameter curves to fit interpolated pathline points to improve the aesthetic of trajectories calculated using Lagrangian data.
 %
-Hummel et al.~\cite{hummel2016error} provided theoretical error bounds for error propagation that can occur when calculating trajectories using Lagrangian representations. 
+Lastly, Hummel et al.~\cite{hummel2016error} provided theoretical error bounds for error propagation that can occur when calculating trajectories using Lagrangian representations. 
 %
-Finally, Jakob et al.~\cite{Jakob20} used DNNs to up-sample FTLE visualizations computed using reduced Lagrangian representations of 2D flow fields. 
+%Finally, Jakob et al.~\cite{Jakob20} used DNNs to up-sample FTLE visualizations computed using reduced Lagrangian representations of 2D flow fields. 
 
 
+\vspace{-1mm}
 \subsection{Time-Varying Vector Field Reduction}
 %Within the vector field analysis and visualization community, Lagrangian methods have been increasingly used in the past decade.
 %
@@ -124,12 +81,11 @@ Finally, Jakob et al.~\cite{Jakob20} used DNNs to up-sample FTLE visualizations 
 %
 %LCS have also been used for uncertain transient vector field visualization by Guo et al.~\cite{guo2016finite}.
 %
-
-Although a few studies have shown that Eulerian representations can be susceptible to temporal sparsity~\cite{costa2004lagrangian}\cite{Qin2014}\cite{agranovsky2014improved}\cite{sane2018revisiting}, temporal subsampling remains the widely used solution to limit data storage.
+Although Eulerian representations have been shown to be susceptible to temporal sparsity~\cite{costa2004lagrangian}\cite{Qin2014}\cite{agranovsky2014improved}\cite{sane2018revisiting}, temporal subsampling remains the widely used solution to limit data storage.
 %
-Our study contributes to this body of work by using temporal subsampling as a reference comparison.
+Our study adds to this body of work by using temporal subsampling for comparison.
 %
-Multiple works have proposed single time step vector field reduction strategies while maintaining an Eulerian representation.
+Multiple works have proposed single time step vector field reduction strategies while maintaining an Eulerian representation~\cite{lodha2000topology}\cite{lodha2003topology}\cite{theisel2003combining}\cite{tong2012salient}.
 %
 %Lodha et al.~\cite{lodha2000topology} controlled the compression of similar vectors into single vectors representing larger area.
 %
@@ -152,7 +108,7 @@ Thus, ZFP allowed a limited amount of compression to time-varying vector field d
 %
 The technique provided an average reduction of 30\% of total uncompressed vector field data, with regions of high gradient resulting in less compression. 
 %
-%Overall, the scientist referred to the use of lossy compression as unfortunate but necessary.
+Overall, Orf referred to the use of lossy compression as unfortunate but necessary.
 
 %In this paper, using the same temporal sampling frequency as the Lagrangian representations, we measure the reconstruction accuracy achieved by temporal subsampling for reference.
 %Although these techniques are valuable, they do not sufficiently address the challenge of increasing temporal sparsity.

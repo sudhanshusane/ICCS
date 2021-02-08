@@ -1,5 +1,6 @@
 This section provides an overview of our study. It is organized as follows: runtime environment~(\ref{sec:runtime}), simulation codes~(\ref{sec:simulations}), experiments~(\ref{sec:experiments}), and evaluation metrics~(\ref{sec:metrics}). %, and runtime environment~(\ref{sec:runtime}).
 
+\vspace{-1mm}
 \subsection{Runtime Environment}
 \label{sec:runtime}
 Our study used the Summit supercomputer at ORNL.
@@ -12,11 +13,12 @@ Each GPU is an NVIDIA Tesla V100 with 5120 CUDA cores, 6.1 TeraFLOPS of double p
 %
 Lastly, it has a Mellanox EDR 100G InfiniBand, Non-blocking Fat Tree as its interconnect topology.
 
+\vspace{-1mm}
 \subsection{Simulation Codes}
 \label{sec:simulations}
-We focused our study on 
+%We focused our study on 
 %two 
-computational science applications being developed as part of the US Department of Energy Office of Science Exascale Computing Project (ECP).
+%computational science applications being developed as part of the US Department of Energy Office of Science Exascale Computing Project (ECP).
 %
 %See additional material for benchmarking on a third application: the Cloverleaf3D ECP proxy simulation code~\cite{mallinson2013cloverleaf}.
 %that solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using an explicit second-order method. 
@@ -35,64 +37,69 @@ To study the distribution, scientists currently perform statistical analysis of 
 %
 We investigated the potential of reduced Lagrangian representation to accurately visualize the particle evolution and the distribution of high-density clusters using pathlines.
 %
-At the time of this study, the Nyx simulation executes using the CPU on a single Summit compute node.
+The Nyx simulation we built executed as a single rank using 2 CPUs on a single Summit compute node.
+%At the time of this study, the Nyx simulation executes using the CPU on a single Summit compute node.
 %
-For this simulation, we performed L-ISR using the CPU.
+%For this simulation, we performed L-ISR using the CPU.
 
-\textbf{SW4:} In this seismology simulation~\cite{petersson2015wave}, seismic wave propagation is studied using a fourth-order method.
+\noindent\textbf{SW4:} In this seismology simulation~\cite{petersson2015wave}, seismic wave propagation is studied using a fourth-order method.
 %
 The application simulates waves radiating from the epicenter through viscoelastic media. 
 %
-The simulation produced multiple distinct spatial domains with a time-varying 3D displacement field.
+%The simulation produced multiple distinct spatial domains with a time-varying 3D displacement field.
 %
-We operated on a single domain and used the displacement vector as input.
+We 
+%operated on the domain below the surface layer and 
+used the 3D time-varying displacement vector defined at each grid point as input.
 %
 We investigated how accurately we can derive and visualize the field encoding displacement over time in two regions: at the epicenter and away from the epicenter.
 %
-At the time of this study, the SW4 simulation scales to a large number of ranks across several compute nodes and uses GPUs for execution on Summit.
+The SW4 simulation we built executed using six ranks per compute node on Summit. Each rank was allocated a GPU.
+%At the time of this study, the SW4 simulation scales to a large number of ranks across several compute nodes and uses GPUs for execution on Summit.
 %
-For this simulation, we performed L-ISR using GPUs.
+%For this simulation, we performed L-ISR using GPUs.
 %
 
-\textbf{Cloverleaf3D:} We include a third mini-application for a benchmarking study. The Cloverleaf3D ECP proxy simulation code~\cite{mallinson2013cloverleaf} solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using explicit second-order method.
+%\textbf{Cloverleaf3D:} We included a mini-application for a benchmarking study. The Cloverleaf3D ECP proxy simulation code~\cite{mallinson2013cloverleaf} solves compressible Euler equations in a hydrodynamics setting on a Cartesian grid using explicit second-order method.
 %
-Cloverleaf3D has been developed and used by several studies to evaluate emerging architectures and various techniques targeting Exascale applications.
+%Cloverleaf3D has been developed and used by several studies to evaluate emerging architectures and various techniques targeting Exascale applications.
 
 %
+\vspace{-1mm}
 \subsection{Experiments}
 \label{sec:experiments}
 
-For each application in this study, we organize our experiments to inform in situ encumbrance and post hoc efficacy. 
+For each application in this study, we organized our experiments to inform in situ encumbrance and post hoc efficacy. 
 %
 We consider four evaluation criteria (EC).
 %
-To inform in situ encumbrance,  we measure the execution time (EC1) and runtime memory (EC2) requirements of in situ processing.
+To inform in situ encumbrance,  we measured the execution time (EC1) and runtime memory usage (EC2) for in situ processing.
 %
-To inform post hoc efficacy, we measure the size of data artifacts (EC3) and the accuracy of post hoc analysis (EC4).
+To inform post hoc efficacy, we measured the size of data artifacts (EC3) and the accuracy of post hoc analysis (EC4).
 %\begin{tightEnumerate}
 %\item\textbf{(EC1) In situ reduction time:} the execution time spent by the simulation on data analysis and visualization.
 %\item\textbf{(EC2) In situ reduction memory:} the runtime memory used by in situ processing.
 %\item\textbf{(EC3) Data storage size:} the file storage costs (i.e., bytes).
 %\item\textbf{(EC4) Post hoc exploration accuracy:} the quantitative and qualitative accuracy of new interpolated trajectories or derived fields.
 %\end{tightEnumerate}
-
-Next, we identify four factors that when varied produce the workloads we want to evaluate for our study:
+%
+Next, we identified four factors that when varied produce the workloads we want to evaluate for our study:
 \begin{tightItemize}
 \item\textbf{Number of particles:} the spatial sampling resolution denoted using \textbf{1:X}, where X is the reduction factor. For example, a 1:8 configuration states that one basis particle is used for every 8 grid points ($\approx$12.5\% of the original data size).  
 \item\textbf{Storage interval:} the number of cycles between saves and denoted by \textbf{I}.
-\item\textbf{Grid size:} the resolution of the mesh. 
-\item\textbf{Concurrency:} the scale of execution and parallelization hardware.
+\item\textbf{Grid size:} the spatial resolution of the mesh. 
+\item\textbf{Concurrency:} the scale of the execution and underlying parallelization hardware.
 \end{tightItemize}
 %
 %For each application, in response to our evaluation criteria, we organize our experiments to inform in situ encumbrance (EC1, EC2) and post hoc efficacy (EC3, EC4). 
 %
-Rather than consider a complete cross-product of options for every workload factor, we sample the space of possible options.
+Rather than consider a complete cross-product of options for every workload factor, we sampled the space of possible options.
 %
 Our goal was to simultaneously provide coverage and yet allow us to see the impact of certain workload factors, all while staying within our compute budget.
 %
-For Nyx, we ran a total of 18 experiments, with 6 informing in situ encumbrance (varying \textbf{1:X}, grid size) and 12 informing post hoc efficacy (varying \textbf{1:X}, \textbf{I}).
+For Nyx, we ran 18 experiments, with 6 informing in situ encumbrance (varying \textbf{1:X}, grid size) and 12 informing post hoc efficacy (varying \textbf{1:X}, \textbf{I}).
 %
-For SW4, we ran a total of 11 experiments, with 7 informing in situ encumbrance (varying \textbf{1:X}, grid size, concurrency) and 4 informing post hoc efficacy (varying \textbf{1:X}).
+For SW4, we ran 11 experiments, with 7 informing in situ encumbrance (varying \textbf{1:X}, grid size, concurrency) and 4 informing post hoc efficacy (varying \textbf{1:X}).
 %
 The specific options selected are presented along with the results in Section~\ref{sec:results}. 
 %details of 
@@ -169,36 +176,45 @@ The specific options selected are presented along with the results in Section~\r
 %\end{table}
 
 
+\vspace{-1mm}
 \subsection{Evaluation Metrics}
 \label{sec:metrics}
 We select our evaluation metrics based on the evaluation criteria listed in Section~\ref{sec:experiments}.
 %
 
-For EC1, we measure \textbf{Step}, the average cost of invoking the Lagrangian VTK-m filter through Ascent every cycle in seconds. Additionally, we present the percentage of simulation time spent on data analysis and visualization, or \textbf{DAV\%}.
+For EC1, we measured the average cost of invoking the Lagrangian VTK-m filter through Ascent every cycle, \textbf{Step}, in seconds. Additionally, we present the percentage of simulation time spent on data analysis and visualization, or \textbf{DAV\%}.
 %
 We use \textbf{Sim$_{cycle}$} to denote the average time required for a single simulation cycle in seconds.
 
-For EC2, we measure \textbf{InSituMem}, the runtime memory cost incurred by every compute node to maintain the state (current position) of particles at runtime in Bytes.
+For EC2, we measured \textbf{InSituMem}, the runtime memory cost incurred by every compute node to maintain the state (current position) of particles at runtime in Bytes.
 %
 
-For EC3, we limit our measurement and discussion of I/O to the total data storage~(or \textbf{DS}) required on the file system and report it in Bytes stored.
+%For EC3, we limited our measurement and discussion of I/O to the total data storage  required on the file system and report it in Bytes stored.
+For EC3, we measured the total data storage (\textbf{DS}) required on the file system and report it in Bytes stored.
 %
-We do not report or factor the cost of I/O write times. 
+%We do not report or factor the cost of I/O write times. 
 %
-Besides being an infrequently performed operation, we observed that for the scale of study we conducted that Summit provides very fast write times.
+In addition to I/O being infrequently performed, we observed that for the scale of study we conducted, Summit provided fast write times.
 %
-In comparison to performing in situ processing every cycle, we found the I/O write cost to be negligible at the scale we test.
+In comparison to performing in situ processing every cycle, we found the I/O write cost to be negligible. %at the scale we test.
 %Given the range of files sizes stored to disk by a single MPI rank in our study is between 0.5MB to 115MB, we believe the I/O write cost is negligible at the scale we test.
 
-For EC4, we consider both a statistical and qualitative analysis. 
+For EC4, we considered both a statistical and qualitative analysis. 
 %
-We use the post hoc efficacy of various Eulerian configurations storing full-resolution meshes at varying storage intervals as a reference for comparison.
+For Nyx, we derive pathlines from the basis trajectories and measure the reconstruction error by calculating the average Euclidean distance of interpolated points from the ground truth~(precomputed using the complete simulation data) for each trajectory.
 %
-To measure the error of each reconstructed trajectory (Lagrangian and Eulerian), we calculate the average Euclidean distance of interpolated points from the ground truth~(precomputed using the complete simulation data).
+We visualize the distribution of pathline reconstruction error for every configuration using violin plots, and for a subset of configurations, the pathline clustering directly.
 %
-We visualize distributions using violin plots with included boxplots to capture interquartile ranges.
+For SW4, we derive a field encoding magnitude of displacement over time from the basis trajectories.
 %
-Our qualitative comparisons for both applications involve visualizing reconstructed time-varying vector fields using pathlines or derived scalar fields and observing the preservation of features of interest.
+In this case, we visualize and compare the field derived from basis trajectories to the ground truth time-varying displacement field using violin plots and isosurfaces.
+%We used the post hoc efficacy of various Eulerian configurations storing full-resolution meshes at varying storage intervals as a reference for comparison.
+%
+%To measure the pathline reconstruction error, we calculated the average Euclidean distance of interpolated points from the ground truth~(precomputed using the complete simulation data) for each trajectory. 
+%
+%We visualized distributions of pathline error and reconstructed fields using violin plots with included boxplots to capture interquartile ranges.
+%
+%Our qualitative comparisons for both applications involved visualizing reconstructed time-varying vector fields using pathlines or derived scalar fields and observing the preservation of features of interest.
 %
 %
 %We then visualize the distribution of reconstruction error across particles using violin plots with included boxplots to capture interquartile ranges.

@@ -1,0 +1,45 @@
+\vspace{-1mm}
+\subsection{Frames of Reference}
+%
+In fluid dynamics, there are two frames of reference to observe fluid motion: Eulerian and Lagrangian.
+%
+With the Eulerian frame of reference, the observer is in a fixed position.
+%
+With the Lagrangian frame of reference, the observer is attached to a fluid parcel and is moving through space and time.
+
+%
+Storage of a flow field in an Eulerian representation is typically done by means of its velocity field.
+%
+A velocity field $v$ is a time-dependent vector field that maps each point $x\in \mathbb R^d$ in space to the velocity of the flow field for a given time $t\in \mathbb R$
+%
+\begin{eqnarray}
+{v} : \mathbb R^d \times \mathbb R \to \mathbb R^d,\; x,t \mapsto v(x,t)
+\end{eqnarray}
+
+%In a practical setting, the vector field is defined over a fixed, discrete mesh and represents the state of the flow field at a specific instant of time or time slice, i.e., at a specific simulation time and cycle.
+%
+In a practical setting, a flow field at a specific time/cycle is defined as vector data on a fixed, discrete mesh.
+%
+Time-varying flow is represented as a collection of such data over a variety times/cycles.
+
+
+Storage of a flow field in a Lagrangian representation is done by means of its flow map $F_{t_0}^{t}$.
+%
+The flow map is comprised of the starting positions of massless particles $x_0$ at time $t_0$ and their respective trajectories that are interpolated using the time-dependent vector field.
+%
+Mathematically, a flow map is defined as the mapping
+\begin{eqnarray}
+F_{t_0}^{t}(x_0):\mathbb R \times \mathbb R \times \mathbb R^d \to \mathbb R^d,\; t \times t_0 \times x_0 \mapsto F_{t_0}^{t}(x_0) = x(t)
+\end{eqnarray}
+%
+of initial values $x_0$ to the solutions of the ordinary differential equation
+%
+\begin{eqnarray}
+\frac{d}{dt}x(t) = v(x(t),t)
+\end{eqnarray}
+
+In a practical setting, the flow map is represented as sets of particle trajectories calculated in the time interval $[t_0,t]\subset \mathbb R$.
+%
+The stored information, encoded in the form of known particle trajectories (i.e., a Lagrangian representation), encodes the behavior of the time-dependent vector field over an interval of time.
+%
+%Although the frames of reference are theoretically equivalent~\cite{bujack2015lagrangian}, their application in practical settings varies.
