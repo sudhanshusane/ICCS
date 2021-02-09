@@ -66,7 +66,7 @@ We used the existing particle advection infrastructure available in VTK-m~\cite{
 %
 RK4 particle advection is implemented using VTK-m worklets (kernels) that offer performance portability by utilizing the underlying hardware accelerators.
 %
-In our implementation, each Lagrangian filter stored the displacement of each particle (3 double), as well as its validity (1 boolean), i.e., whether the particle remained within the domain during the interval of calculation.
+In our implementation, each Lagrangian filter stored the displacement of each particle (three double), as well as its validity (one Boolean), i.e., whether the particle remained within the domain during the interval of calculation.
 %
 Overall, computing a Lagrangian representation increased the runtime memory cost on the simulation by approximately by four one-dimensional simulation ``fields''.
 %
@@ -85,19 +85,19 @@ The Lagrangian filter used the vector field to advance particles, and triggered 
 %
 For integration, all the steps involved --- creating an instance of Ascent, specifying parameters, and invoking the VTK-m Lagrangian filter --- required only 23 lines of code (C++). % and less is a JSON input file was used.
 %
-The code sample in \ref{lst:code} shows these steps. 
+The code sample in Listing~\ref{lst:code} shows these steps. 
 %
 
 \noindent\textbf{Post Hoc Exploration}
-For post hoc analysis, new particle trajectories are computed by interpolating basis trajectories that were extracted in situ.
+For post hoc analysis, new particle trajectories are computed to explore the time-varying vector field. %by interpolating basis trajectories that were extracted in situ.
 %
-The essential operations involved in constructing new particle trajectories are identifying which basis trajectories to follow and then performing interpolation.
+To construct new particle trajectories, we first identified which basis trajectories to follow and then performed interpolation.
 %
-Based on the study of accuracy of various Lagrangian-based advection schemes in~\cite{agranovsky2015subsampling}, our study employed a Delaunay triangulation to identify the neighborhood of valid basis trajectories and second-order barycentric coordinates interpolation.
+Based on the study of accuracy of various Lagrangian-based advection schemes in~\cite{agranovsky2015subsampling}, our study employed a Delaunay triangulation to identify the neighborhood of valid basis trajectories and second-order barycentric coordinates for interpolation.
 %
 We used the CGAL~\cite{fabri2011cgal} library to construct and search the Delaunay triangulation.
 %
-After reconstructing new pathlines or deriving new scalar fields from the data extracted in situ, we used VisIt~\cite{childs2012visit} to generate visualizations.
+After constructing new pathlines or deriving new scalar fields from the basis trajectories, we used VisIt~\cite{childs2012visit} to generate visualizations.
 
 \begin{lstlisting}[basicstyle=\footnotesize, label={lst:code}, caption=Ascent example., language=C++] 
 Ascent ascent;

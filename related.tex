@@ -11,7 +11,9 @@ In this paper, we focus on the use of Lagrangian methods to store time-varying v
 %
 %fueled by temporal sparsity of data, i.e., simulations store data less frequently to avoid high storage costs.
 %
-In sparse temporal settings, Lagrangian representations are expected to perform better than their Eulerian counterparts, and the key intuition behind this is Lagrangian representations capture the behavior of the flow field over an interval of time, as opposed to the state at a single time slice.
+In sparse temporal settings, Lagrangian representations are expected to perform better than their Eulerian counterparts. 
+%
+The key intuition behind this expectation is that Lagrangian representations capture the behavior of the flow field over an interval of time, as opposed to the state at a single time slice.
 %
 However, in addition to the frequency of temporal sampling, the nature of the vector field and spatial sampling resolution impacts the quality of reconstruction.
 %
@@ -30,13 +32,13 @@ The experiments in these works were conducted in a theoretical in situ setting, 
 %Such a theoretical set up fails to capture the cost of invoking in situ processing every cycle in a tightly-coupled system.
 %
 %
-Most recently, Jakob et al.~\cite{Jakob20} train a DNN to upsample FTLE visualizations derived from reduced Lagrangian representations. 
+Most recently, Jakob et al.~\cite{Jakob20} trained a DNN to upsample FTLE visualizations derived from reduced Lagrangian representations. 
 %
-To generate training data, they first compute Lagrangian representations of a 2D flow field using a tightly-coupled integration with an open source CFD solver on HPC resources and report in situ processing costs.
+To generate training data, they first computed Lagrangian representations of a 2D flow field using a tightly-coupled integration with an open-source CFD solver on HPC resources and reported computation costs.
 %
 However, the grid size of $4\times4$ per rank used in the study is not representative of real-world applications.
 %
-Thus, current literature lacks in situ encumbrance measurements in representative settings.
+Thus, the current literature lacks in situ encumbrance measurements in representative settings.
 %
 %Our study explores this space by investigating the benefits and limitations of using reduced Lagrangian representations for previously unexplored time-varying vector fields.
 
@@ -102,9 +104,9 @@ In a recent large-scale tornadic supercell thunderstorm study~\cite{atmos1010057
 %
 ZFP provides dynamic accuracy control by allowing the user to specify a maximum amount of deviation.
 %
-Orf stated that although ZFP is effective for scalar fields that do not require differentiation during post hoc analysis, to maintain accurate vector field reconstruction, only a very small value of deviation can be chosen for each component of velocity.
+Orf stated that although ZFP is effective for scalar fields that do not require differentiation during post hoc analysis, only a very small value of deviation can be chosen for each component of velocity to maintain accurate time-varying vector field reconstruction. 
 %
-Thus, ZFP allowed a limited amount of compression to time-varying vector field data without introducing significant uncertainty to post hoc analysis. 
+Thus, ZFP allowed a limited amount of compression to vector field data without introducing significant uncertainty to post hoc analysis. 
 %
 The technique provided an average reduction of 30\% of total uncompressed vector field data, with regions of high gradient resulting in less compression. 
 %

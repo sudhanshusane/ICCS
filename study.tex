@@ -31,7 +31,7 @@ The simulation involves particles gravitating toward high-density regions to for
 %
 %For this simulation, we derived the velocity field using the fields of momentum and density of the gas.
 %
-One of the features of interest is the distribution of high densities clusters.
+One of the features of interest is the distribution of high-density clusters.
 %
 To study the distribution, scientists currently perform statistical analysis of gas particle density at a single time slice.
 %
@@ -95,7 +95,7 @@ Next, we identified four factors that when varied produce the workloads we want 
 %
 Rather than consider a complete cross-product of options for every workload factor, we sampled the space of possible options.
 %
-Our goal was to simultaneously provide coverage and yet allow us to see the impact of certain workload factors, all while staying within our compute budget.
+Our goal was to provide coverage and allow us to see the impact of certain workload factors, all while staying within our compute budget.
 %
 For Nyx, we ran 18 experiments, with 6 informing in situ encumbrance (varying \textbf{1:X}, grid size) and 12 informing post hoc efficacy (varying \textbf{1:X}, \textbf{I}).
 %
@@ -179,12 +179,12 @@ The specific options selected are presented along with the results in Section~\r
 \vspace{-1mm}
 \subsection{Evaluation Metrics}
 \label{sec:metrics}
-We select our evaluation metrics based on the evaluation criteria listed in Section~\ref{sec:experiments}.
+We selected our evaluation metrics based on the evaluation criteria listed in Section~\ref{sec:experiments}.
 %
 
-For EC1, we measured the average cost of invoking the Lagrangian VTK-m filter through Ascent every cycle, \textbf{Step}, in seconds. Additionally, we present the percentage of simulation time spent on data analysis and visualization, or \textbf{DAV\%}.
+For EC1, we measured the average cost of invoking the Lagrangian VTK-m filter through Ascent every cycle, \textbf{Step}, in seconds. Additionally, we presented the percentage of simulation time spent on data analysis and visualization, or \textbf{DAV\%}.
 %
-We use \textbf{Sim$_{cycle}$} to denote the average time required for a single simulation cycle in seconds.
+We used \textbf{Sim$_{cycle}$} to denote the average time required for a single simulation cycle in seconds.
 
 For EC2, we measured \textbf{InSituMem}, the runtime memory cost incurred by every compute node to maintain the state (current position) of particles at runtime in Bytes.
 %
@@ -201,13 +201,13 @@ In comparison to performing in situ processing every cycle, we found the I/O wri
 
 For EC4, we considered both a statistical and qualitative analysis. 
 %
-For Nyx, we derive pathlines from the basis trajectories and measure the reconstruction error by calculating the average Euclidean distance of interpolated points from the ground truth~(precomputed using the complete simulation data) for each trajectory.
+For Nyx, we derived pathlines from the basis trajectories and measured the reconstruction error by calculating the average Euclidean distance of interpolated points from the ground truth~(precomputed using the complete simulation data) for each trajectory.
 %
-We visualize the distribution of pathline reconstruction error for every configuration using violin plots, and for a subset of configurations, the pathline clustering directly.
+We visualized the distribution of pathline reconstruction error for every configuration using violin plots, and for a subset of configurations, the pathline clustering directly.
 %
-For SW4, we derive a field encoding magnitude of displacement over time from the basis trajectories.
+For SW4, we derived a field encoding magnitude of displacement over time from the basis trajectories.
 %
-In this case, we visualize and compare the field derived from basis trajectories to the ground truth time-varying displacement field using violin plots and isosurfaces.
+In this case, we visualized and compared the derived field to the ground truth time-varying displacement field using violin plots and isosurfaces.
 %We used the post hoc efficacy of various Eulerian configurations storing full-resolution meshes at varying storage intervals as a reference for comparison.
 %
 %To measure the pathline reconstruction error, we calculated the average Euclidean distance of interpolated points from the ground truth~(precomputed using the complete simulation data) for each trajectory. 

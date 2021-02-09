@@ -1,6 +1,6 @@
 Our results are organized as follows.
 %
-Sections~\ref{sec:nyx} and\ref{sec:sw4} present findings from our study investigating reduced Lagrangian representations for cosmology and seismology applications, respectively.
+Sections~\ref{sec:nyx} and~\ref{sec:sw4} present findings from our study investigating reduced Lagrangian representations for cosmology and seismology applications, respectively.
 %
 %Section~\ref{sec:cloverleaf3d} contains results from our benchmarking study.
 %
@@ -8,7 +8,7 @@ Sections~\ref{sec:nyx} and\ref{sec:sw4} present findings from our study investig
 %
 Tables~\ref{table:nyx_encumbrance} and~\ref{table:sw4_encumbrance} provide information pertaining to in situ encumbrance experiments, such as concurrency information, spatial dimensions, Sim$_{cycle}$, number of particles, \textbf{InSituMem}, \textbf{Step}, and \textbf{DAV\%}, for each application. 
 %
-Figure~\ref{fig:insitucost} contains the execution time per cycle for all the in situ encumbrance experiments. %from both applications.  
+Figure~\ref{fig:insitucost} shows the execution time per cycle for all the in situ encumbrance experiments. %from both applications.  
 %
 \input{insitucost.tex}
 %
@@ -16,7 +16,7 @@ Figures~\ref{fig:nyx_violinplot},~\ref{fig:nyx_figure},~\ref{fig:sw4_violinplot}
 %
 For each application, the figures are annotated with configuration specifics such as the \textbf{DS}, \textbf{1:X}, and \textbf{I}.
 %
-Further, Lagrangian and Eulerian tests are distinguished explicitely in the captions or are labeled L$T$ and E$T$, respectively, where $T$ is the test number.
+Further, Lagrangian and Eulerian tests are distinguished explicitly in the captions or are labeled L$T$ and E$T$, respectively, where $T$ is the test number.
 %
 %We refer to these tables and figures in the discussion that follows. 
 
@@ -28,17 +28,17 @@ Using all the cores of two CPUs on a single compute node, we used OpenMP to para
 %
 We tested two options for grid size - $69^{3}$ and $129^{3}$ - on a single rank, and three particle advection workloads (1:1, 1:8, 1:27) each.
 %
-In a single compute node hour, the simulation performed approximately 300 and 38 cycles, when using $69^{3}$ and $129^{3}$ grid sizes, respectively.
+In a single compute node hour, the simulation performed approximately 300 and 38 cycles when using $69^{3}$ and $129^{3}$ grid sizes, respectively.
 %
 %In a single compute node hour, the simulation performs approximately 300 cycles for the $69^{3}$ resolution and approximately 38 cycles for the $129^{3}$ resolution.
 %
-An 8X increase in grid size results in a proportional increase in Sim$_{cycle}$ but only a small increase in particle advection costs for the same number of particles.
+An 8X increase in grid size resulted in a proportional increase in Sim$_{cycle}$ but only a small increase in particle advection costs for the same number of particles.
 %
-We expect a single rank to operate on between $32^{3}$ to $256^{3}$ grid resolutions, and thus our workloads provide a representative estimate of \textbf{DAV\%}.
+In practice, we would expect a single rank to operate on between $32^{3}$ to $256^{3}$ grid points, and thus our workloads provided a representative estimate of \textbf{DAV\%}.
 %
 %For example, sampling a $256^{3}$ using a 1:8 reduction involves computing 2.1M basis trajectories. 
 
-An encouraging finding is the low in situ encumbrance when performing L-ISR on the CPUs.
+An encouraging finding was the low in situ encumbrance when performing L-ISR on the CPUs.
 %
 Depending on the setup of various simulations and the form of integration for in situ processing, future work can consider offloading L-ISR computation to CPUs.
 %
@@ -85,10 +85,10 @@ We used pathlines with manually set transfer functions to visualize the evolutio
 %
 The total size of the simulation vector field data used to compute the ground truth is 5.3GB.
 %
-We visualize a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
+We visualized a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
 %To visualize the evolution and clustering of particles in regions of high density, we visualize a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
 %
-We note that Lagrangian configurations (L04 to L12) using larger values of \textbf{I} are more accurate statistically~(Figure~\ref{fig:nyx_violinplot}).
+We found that Lagrangian configurations (L04 to L12) using larger values of \textbf{I} are more accurate statistically~(Figure~\ref{fig:nyx_violinplot}).
 %
 %
 The Lagrangian representations demonstrate the ability to closely reconstruct regions where dense clusters are formed while requiring a fraction of the total simulation data size.
@@ -127,7 +127,7 @@ Referencing Figure~\ref{fig:insitucost}, although the SW4 experiments used six G
 \input{sw4_figure.tex}
 
 \noindent\textbf{Post Hoc Efficacy}
-We studied the reconstruction of the time-varying displacement vector field encoding wave propagation by considering four options for data reduction~(1:1, 1:8, 1:27, 1:64) and 1 option for \textbf{I}~(250).
+We studied the reconstruction of the time-varying displacement vector field encoding wave propagation by considering four options for data reduction~(1:1, 1:8, 1:27, 1:64) and one option for \textbf{I}~(250).
 %
 The ground truth was computed using 2000 simulation cycles and required 245 GB.
 %
@@ -135,7 +135,7 @@ The displacement was highest near the epicenter and reduced as waves propagate f
 %
 For each simulation run, we measured the displacement of 200,000 samples reconstructed near the epicenter (Figure~\ref{fig:epicenter}) and 90,000 samples reconstructed in six regions away from the epicenter (Figure~\ref{fig:clusters}).
 %
-Here, we directly compare against the distribution of ground truth (GT) displacement.
+Here, we directly compared against the distribution of ground truth (GT) displacement.
 %
 In both cases, Lagrangian representations offered significant data reduction while maintaining high accuracy.
 %
@@ -145,7 +145,7 @@ In contrast, using a temporally subsampled Eulerian representation (E01) results
 %
 This result can be expected since temporal subsampling fails to capture the transient nature of wave propagation, whereas Lagrangian representations encoding behavior over an interval of time remain accurate.
 %
-Compared to Figure~\ref{fig:epicenter}, the ground truth in Figure~\ref{fig:clusters} has smaller displacement and a multimodal distribution that is the result of samples collected from six regions of the domain away from the epicenter. 
+Compared to Figure~\ref{fig:epicenter}, the ground truth in Figure~\ref{fig:clusters} has smaller displacement and a multimodal distribution, which is the result of samples collected from six regions of the domain away from the epicenter. 
 %
 
 Figure~\ref{fig:sw4_figure} visualizes the displacement field near the epicenter using multiple semi-opaque isosurfaces.
