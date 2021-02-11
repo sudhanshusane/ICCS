@@ -4,7 +4,7 @@
 %\includegraphics[width=0.9\linewidth]{Images/Schematic_Short.pdf}
 \vspace{-2mm}
 \caption{Schematic of the Lagrangian in situ reduction and post hoc exploration workflow.} %the simulation code with in situ processing integrated, data storage, and post hoc analysis.}
-\vspace{-7mm}
+\vspace{-5mm}
 \label{fig:schematic}
 \end{figure}
 
@@ -85,7 +85,7 @@ The Lagrangian filter used the vector field to advance particles, and triggered 
 %
 For integration, all the steps involved --- creating an instance of Ascent, specifying parameters, and invoking the VTK-m Lagrangian filter --- required only 23 lines of code (C++). % and less is a JSON input file was used.
 %
-The code sample in Listing~\ref{lst:code} shows these steps. 
+%The code sample in Listing~\ref{lst:code} shows these steps. 
 %
 
 \noindent\textbf{Post Hoc Exploration}
@@ -99,32 +99,32 @@ We used the CGAL~\cite{fabri2011cgal} library to construct and search the Delaun
 %
 After constructing new pathlines or deriving new scalar fields from the basis trajectories, we used VisIt~\cite{childs2012visit} to generate visualizations.
 
-\begin{lstlisting}[basicstyle=\footnotesize, label={lst:code}, caption=Ascent example., language=C++] 
-Ascent ascent;
-Node ascent_opts;
-ascent_opts[``runtime/type''] = ``ascent'';
-ascent.open(ascent_opts);
-conduit::Node mesh_data;
-conduit::Node pipelines;
-pipelines[``pl1/f1/type''] = ``lagrangian'';
-// filter knobs
-conduit::Node &lagrangian_params = pipelines[``pl1/f1/params''];
-lagrangian_params[``field''] = ``velocity'';
-lagrangian_params[``step_size''] = 0.02; 
-lagrangian_params[``storage_interval''] = 25; 
-lagrangian_params[``seed_resolution''] = 8; 
-conduit::Node actions;
-conduit::Node &add_pipelines = actions.append();
-add_pipelines[``action''] = ``add_pipelines'';
-add_pipelines[``pipelines''] = pipelines;
-conduit::Node &execute  = actions.append();
-execute[``action''] = ``execute'';
-conduit::Node &reset  = actions.append();
-reset[``action''] = ``reset'';
-ascent.publish(mesh_data);
-ascent.execute(actions);
-ascent.close();
-\end{lstlisting}
+%\begin{lstlisting}[basicstyle=\footnotesize, label={lst:code}, caption=Ascent example., language=C++] 
+%Ascent ascent;
+%Node ascent_opts;
+%ascent_opts[``runtime/type''] = ``ascent'';
+%ascent.open(ascent_opts);
+%conduit::Node mesh_data;
+%conduit::Node pipelines;
+%pipelines[``pl1/f1/type''] = ``lagrangian'';
+%// filter knobs
+%conduit::Node &lagrangian_params = pipelines[``pl1/f1/params''];
+%lagrangian_params[``field''] = ``velocity'';
+%lagrangian_params[``step_size''] = 0.02; 
+%lagrangian_params[``storage_interval''] = 25; 
+%lagrangian_params[``seed_resolution''] = 8; 
+%conduit::Node actions;
+%conduit::Node &add_pipelines = actions.append();
+%add_pipelines[``action''] = ``add_pipelines'';
+%add_pipelines[``pipelines''] = pipelines;
+%conduit::Node &execute  = actions.append();
+%execute[``action''] = ``execute'';
+%conduit::Node &reset  = actions.append();
+%reset[``action''] = ``reset'';
+%ascent.publish(mesh_data);
+%ascent.execute(actions);
+%ascent.close();
+%\end{lstlisting}
 %
 %
 %We use Ascent to store the complete velocity field at a specified frequency in order to evaluate the traditional Eulerian paradigm.

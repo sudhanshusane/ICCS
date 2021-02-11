@@ -72,9 +72,14 @@ This result can be expected given reconstruction using an Eulerian representatio
 %
 However, as the value of \textbf{I} increases, the distribution of error for the Lagrangian tests indicates that a larger percentage of samples are reconstructed more accurately.
 %
-The Lagrangian representation computed in situ using RK4 encodes the behavior over an interval of time more accurately for the majority of samples.
+In particular, this is true when a high spatial sampling resolution is used.
 %
-In contrast, Eulerian representations become less effective at reconstructing the vector field due to increased numerical approximation and accumulating error.
+Thus, particle evolution in this cosmology simulation can be tracked more accurately when a dense set of basis trajectories integrated for a long duration is interpolated.
+%
+%
+%The Lagrangian representation computed in situ using RK4 encodes the behavior over an interval of time more accurately for the majority of samples.
+%
+In contrast, Eulerian representations become less effective at reconstructing the vector field due to increased numerical approximation.
 %
 %With regard to spatial sampling resolution, for the grid size we consider, we find that reducing the number of samples has a considerable impact on the efficacy of reconstruction.
 %
@@ -88,7 +93,9 @@ The total size of the simulation vector field data used to compute the ground tr
 We visualized a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
 %To visualize the evolution and clustering of particles in regions of high density, we visualize a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
 %
-We found that Lagrangian configurations (L04 to L12) using larger values of \textbf{I} are more accurate statistically~(Figure~\ref{fig:nyx_violinplot}).
+%We believe these configurations provide a representative idea of reconstruction accuracy
+%
+%We found that Lagrangian configurations (L04 to L12) using larger values of \textbf{I} are more accurate statistically~(Figure~\ref{fig:nyx_violinplot}).
 %
 %
 The Lagrangian representations demonstrate the ability to closely reconstruct regions where dense clusters are formed while requiring a fraction of the total simulation data size.

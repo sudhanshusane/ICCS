@@ -50,7 +50,7 @@ More recently, multiple works have advanced Lagrangian research along axes such 
 %
 %More recently, Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} used embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualize a derived scalar field representing trajectory density.
 %
-Existing evaluations of reduced Lagrangian representations, although often conducted in theoretical in situ environments using analytical data sets where ground truths are known, have been encouraging. 
+Existing evaluations of reduced Lagrangian representations, although often conducted in theoretical in situ environments using analytical data sets where ground truths are known, have been encouraging and show that performance characteristics vary from case to case. 
 %
 %Existing evaluations, although on a limited set of applications and primarily conducted in theoretical in situ settings, are promising.
 %
@@ -65,13 +65,26 @@ Thus, the application of reduced Lagrangian representations to a broader range o
 %In this paper, we investigate Lagrangian representations for time-varying vector fields produced by cosmology and seismology simulations in representative HPC settings.
 %
 
-In this paper, our contribution is an investigation of the use of reduced Lagrangian representations to encode the self-gravitating gas dynamics of a cosmology simulation and seismic wave propagation in a seisomology simulation.
+In this paper, our contribution is an investigation of reduced Lagrangian representations to encode the self-gravitating gas dynamics of a cosmology simulation and seismic wave propagation in a seisomology simulation.
 %
-We study the efficacy of Lagrangian representations by conducting a statistical evaluation across a range of spatiotemporal configurations as well as a qualitative evaluation for varying data reduction factors. %for cosmology and seismology applications.
+For the self-gravitating gas dynamics vector field, our experiments show that Lagrangian representations can enable accurate analysis of particle evolution and structure formation in the simulation.
 %
-Our experiments evaluate viability by measuring in situ encumbrance in representative settings, i.e., a tightly-coupled integration with the simulation code and execution on HPC resources.
+Further, we show that reconstruction accuracy statistically improves as temporal sparsity increases, providing an opportunity for increased data reduction.
 %
-Our results show that Lagrangian representations offer strong data storage-accuracy propositions for time-varying analysis of the vector fields studied and require a low cost to extract. %using HPC resources.
+For the seismic wave propagation vector field, we find that Lagrangian representations are well suited to capture transient wave patterns in the flow, resulting in accurate reconstructions for several data reduction options.
+%
+Overall, our experiments show that Lagrangian representations offer high data reductions of the time-varying vector fields considered for a small loss of accuracy, are viable to compute in situ, and should be considered more widely for time-varying vector field analysis.  
+%accurate reconstruction of the time evolutions of the simulation  
+%
+%
+%choices for both spatial and temporal sampling can impact the reconstruction
+%
+%
+%We study the efficacy of Lagrangian representations by conducting a statistical evaluation across a range of spatiotemporal configurations as well as a qualitative evaluation for varying data reduction factors. %for cosmology and seismology applications.
+%
+%Our experiments evaluate viability by measuring in situ encumbrance in representative settings, i.e., a tightly-coupled integration with the simulation code and execution on HPC resources.
+%
+%Our results show that Lagrangian representations offer strong data storage-accuracy propositions for time-varying analysis of the vector fields studied and require a low cost to extract. %using HPC resources.
 %
 %Our experiments evaluate the cost of a tightly-coupled in situ processing integration with each simulation code using Ascent and execution on HPC resources.
 %\item An evaluation of in situ encumbrance in representative settings, i.e., tightly-coupled integration with a simulation and use of HPC resources at scale.

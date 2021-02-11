@@ -27,17 +27,18 @@ Lastly, it has a Mellanox EDR 100G InfiniBand, Non-blocking Fat Tree as its inte
 
 \textbf{Nyx:} In this cosmological simulation~\cite{almgren2013nyx}, baryonic matter is evolved by solving the equations of self-gravitating gas dynamics.
 %
+We derived the velocity field using the fields of momentum and density of the baryonic gas.
+%
 The simulation involves particles gravitating toward high-density regions to form multiple clusters across the domain. 
 %
-%For this simulation, we derived the velocity field using the fields of momentum and density of the gas.
-%
-One of the features of interest is the distribution of high-density clusters.
+The distribution of high-density clusters and their formation is of interest to scientists.
 %
 To study the distribution, scientists currently perform statistical analysis of gas particle density at a single time slice.
 %
 We investigated the potential of reduced Lagrangian representation to accurately visualize the particle evolution and the distribution of high-density clusters using pathlines.
 %
-The Nyx simulation we built executed as a single rank using 2 CPUs on a single Summit compute node.
+%
+The Nyx simulation we built executed as a single rank using two CPUs on a single Summit compute node.
 %At the time of this study, the Nyx simulation executes using the CPU on a single Summit compute node.
 %
 %For this simulation, we performed L-ISR using the CPU.
@@ -54,7 +55,7 @@ used the 3D time-varying displacement vector defined at each grid point as input
 %
 We investigated how accurately we can derive and visualize the field encoding displacement over time in two regions: at the epicenter and away from the epicenter.
 %
-The SW4 simulation we built executed using six ranks per compute node on Summit. Each rank was allocated a GPU.
+The SW4 simulation we built executed using six ranks per compute node on Summit. Each rank was allocated a GPU for execution.
 %At the time of this study, the SW4 simulation scales to a large number of ranks across several compute nodes and uses GPUs for execution on Summit.
 %
 %For this simulation, we performed L-ISR using GPUs.
@@ -71,7 +72,7 @@ The SW4 simulation we built executed using six ranks per compute node on Summit.
 
 For each application in this study, we organized our experiments to inform in situ encumbrance and post hoc efficacy. 
 %
-We consider four evaluation criteria (EC).
+We considered four evaluation criteria (EC).
 %
 To inform in situ encumbrance,  we measured the execution time (EC1) and runtime memory usage (EC2) for in situ processing.
 %
