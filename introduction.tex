@@ -41,11 +41,13 @@ The black trajectories are first extracted in situ and are referred to as \texti
 %
 They are used to reconstruct the red trajectory post hoc.
 %
+\fix{could this info go in caption?}
 The end location of the red trajectory deviates by a margin of error from the ground truth and is the result of using a Lagrangian-based advection scheme \textit{L}, i.e., a technique to interpolate flow maps.
 %
 The quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
 %
 More recently, multiple works have advanced Lagrangian research along axes such as strategies for in situ extraction of reduced Lagrangian representations~\cite{agranovsky2014improved}\cite{rapp2019void}\cite{sane2020scalable}, post hoc reconstruction~\cite{chandler2015interpolation}\cite{sane2019interpolation}\cite{Jakob20}, and theoretical error analysis~\cite{bujack2015lagrangian}\cite{chandler2016analysis}\cite{hummel2016error}.
+\fix{Could you add some citations for different app areas?}
 %Agranovsky et al.~\cite{agranovsky2014improved} proposed computing reduced Lagrangian representations using in situ processing to access the complete spatiotemporal resolution of the simulation.
 %
 %More recently, Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} used embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualize a derived scalar field representing trajectory density.
@@ -55,6 +57,8 @@ Existing evaluations of reduced Lagrangian representations, although often condu
 %Existing evaluations, although on a limited set of applications and primarily conducted in theoretical in situ settings, are promising.
 %
 Thus, the application of reduced Lagrangian representations to a broader range of real-world simulation vector fields, and in practice, is of keen interest to us.
+\fix{I think we need a better reason that it being interesting to us.  Presumably about enabling these app areas to benefit from Lagrangian.}
+
 %
 %However, existing evaluations of reduced Lagrangian representations are on a limited, and often analytical, set of applications, most set in theoretical in situ settings. %~\cite{agranovsky2014improved}\cite{sane2018revisiting}.
 %
@@ -74,6 +78,7 @@ Further, we show that reconstruction accuracy statistically improves as temporal
 For the seismic wave propagation vector field, we find that Lagrangian representations are well suited to capture transient wave patterns in the flow, resulting in accurate reconstructions for several data reduction options.
 %
 Overall, our experiments show that Lagrangian representations offer high data reductions of the time-varying vector fields considered for a small loss of accuracy, are viable to compute in situ, and should be considered more widely for time-varying vector field analysis.  
+\fix{the only mention of viability is in this last sentence.  Most of it is about accuracy.  Could it become more symmetric?  Should this paragraph introduce the notion of how to evaluate Lagrangian efficacy?}
 %accurate reconstruction of the time evolutions of the simulation  
 %
 %

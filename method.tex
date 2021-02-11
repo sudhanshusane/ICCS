@@ -32,9 +32,21 @@ To describe our instantiation, the remainder of this section is divided based on
 \noindent\textbf{In Situ Reduction}
 %In the in situ phase, for a data reduction operator without any a priori knowledge, a good strategy is to place samples such that domain coverage is maintained.
 %
+\fix{I love that you included this, but I think it is a distraction to
+the reader.  Sadly, I propose you omit it.
+}
 Based on the in situ system classification in~\cite{childs2020terminology}, our L-ISR system classifies as one with a dedicated API integration, on node proximity, direct access, a time division of execution, automatic operation, and a derived output type.
 %
+\fix{Here is a possible replacement:
+Both simulations we considered partitioned space amongst compute nodes,
+with each compute node owning one portion of the vector field.
+Our in situ routines followed this pattern, with an
+instance of our Lagrangian analysis
+routine running on each compute node, accessing its portion
+of the vector field.
+}
 For our in situ data reduction strategy, we prioritized domain coverage.
+\fix{I think the preceding sentence is a bit confusing.}
 %
 Similar to Agranovsky et al.~\cite{agranovsky2014improved}, we used uniform spatial sampling and a predetermined interval to store/reset particles.
 %
