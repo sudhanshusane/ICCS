@@ -24,3 +24,30 @@ We found that time-varying vector fields produced by the cosmology and seismolog
 %
 %Overall, the in situ processing cost to compute Lagrangian representations was under 10\% of total execution time in 11 of 13 experiments.
 %
+
+\fix{HANK:}
+Although many types of computational simulations produce time-varying vector fields, 
+subsequent analysis is often limited to single time slices due to excessive costs.
+%
+Fortunately, a new approach using a Lagrangian representation can 
+provide time-varying vector field analysis while mitigating these costs.
+%
+With this approach, a Lagrangian representation is calculated while the simulation code is running, and the result is explored after the simulation.
+%
+Importantly, 
+ the efficacy of this approach varies based on the nature of the vector field, 
+requiring fresh investigation for each application area.
+%
+With this study, we consider efficacy for cosmology and seismology
+applications, which have never been previously been demonstrated.
+%
+We do this by considering encumbrance (on the simulation to calculate the
+Lagrangian representation) and also accuracy (of the reconstructed result).
+%
+To inform encumbrance, we 
+integrated in situ infrastructure with two simulation codes, 
+and evaluated on representative HPC environments,
+performing Lagrangian in situ reduction using GPUs as well as CPUs.
+%
+To inform accuracy, our study conducted a statistical analysis across a range of spatiotemporal configurations as well as a qualitative evaluation.
+In all, we demonstrate efficacy for both cosmology and seismology --- time-varying vector fields from these domains can be reduced by 200X via Lagrangian representations, while maintaining accurate reconstruction and requiring under 10\% of total execution time in over 80\% of our experiments.
