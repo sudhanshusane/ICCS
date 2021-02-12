@@ -48,9 +48,9 @@ Overall, considering the longer Sim$_{cycle}$ times for the Nyx simulation, and 
 \input{nyx_figure.tex}
 
 \noindent\textbf{Post Hoc Efficacy}
-To evaluate the usefulness of Lagrangian representations to encode time-varying self-gravitating gas dynamics, we considered three options for data reduction (1:1, 1:8, 1:27) and four options for \textbf{I}~(25, 50, 100, 200).
+To evaluate the usefulness of Lagrangian representations to encode time-varying self-gravitating gas dynamics, we considered a $69^{3}$ grid over 400 cycles, three options for data reduction (1:1, 1:8, 1:27) and four options for \textbf{I}~(25, 50, 100, 200).
 %
-We constructed pathlines for 50,000 randomly placed particles over 400 cycles during post hoc analysis.
+We constructed pathlines for 50,000 randomly placed particles during post hoc analysis.
 %
 %We measure the error of reconstruction of each pathline by comparing to ground truth trajectories.
 %
@@ -74,7 +74,7 @@ However, as the value of \textbf{I} increases, the distribution of error for the
 %
 In particular, this is true when a high spatial sampling resolution is used.
 %
-Thus, particle evolution in this cosmology simulation can be tracked more accurately when a dense set of basis trajectories integrated for a long duration is interpolated.
+Thus, particle evolution in this cosmology simulation can be tracked more accurately when a dense set of basis trajectories integrated for a long duration are interpolated.
 %
 %
 %The Lagrangian representation computed in situ using RK4 encodes the behavior over an interval of time more accurately for the majority of samples.
@@ -136,7 +136,7 @@ Referencing Figure~\ref{fig:insitucost}, although the SW4 experiments used six G
 \noindent\textbf{Post Hoc Efficacy}
 We studied the reconstruction of the time-varying displacement vector field encoding wave propagation by considering four options for data reduction~(1:1, 1:8, 1:27, 1:64) and one option for \textbf{I}~(250).
 %
-The ground truth was computed using 2000 simulation cycles and required 245 GB.
+The ground truth was computed using a $381\times170\times70$ grid and 2000 simulation cycles required 245 GB.
 %
 The displacement was highest near the epicenter and reduced as waves propagate further away.
 %
@@ -155,12 +155,8 @@ This result can be expected since temporal subsampling fails to capture the tran
 Compared to Figure~\ref{fig:epicenter}, the ground truth in Figure~\ref{fig:clusters} has smaller displacement and a multimodal distribution, which is the result of samples collected from six regions of the domain away from the epicenter. 
 %
 
-Figure~\ref{fig:sw4_figure} visualizes the displacement field near the epicenter using multiple semi-opaque isosurfaces.
+Figure~\ref{fig:sw4_figure} visualizes field encoding displacement over time near the epicenter using multiple semi-opaque isosurfaces.
 %
-Although the overall structure is well reconstructed using Lagrangian representations, regions of highest displacement can be underestimated as the data reduction factor increases.
+Although regions of highest displacement can be underestimated as the data reduction factor increases, the overall structure is well preserved using highly compressed Lagrangian representations.
 %
-Overall, we found that Lagrangian representations offer high data reduction options for small loss of accuracy and should be considered more widely for seismic wave propagation vector fields.
-
-%\subsection{Benchmarking Study: Cloverleaf3D}
-%\label{sec:cloverleaf3d}
-
+In all cases, Lagrangian representations required less than 1\% of the storage of the complete vector data.

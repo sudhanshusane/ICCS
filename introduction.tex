@@ -37,27 +37,125 @@ The notion of calculating a Lagrangian representation or \textit{flow map}, i.e.
 %
 Figure~\ref{fig:sample} illustrates the approach.
 %
-The black trajectories are first extracted in situ and are referred to as \textit{basis} trajectories.
+%The black trajectories are first extracted in situ and are referred to as \textit{basis} trajectories.
 %
-They are used to reconstruct the red trajectory post hoc.
+%They are used to reconstruct the red trajectory post hoc.
 %
-\fix{could this info go in caption?}
-The end location of the red trajectory deviates by a margin of error from the ground truth and is the result of using a Lagrangian-based advection scheme \textit{L}, i.e., a technique to interpolate flow maps.
+%The end location of the red trajectory deviates by a margin of error from the ground truth and is the result of using a Lagrangian-based advection scheme \textit{L}, i.e., a technique to interpolate flow maps.
 %
-The quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
+%The quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
 %
 More recently, multiple works have advanced Lagrangian research along axes such as strategies for in situ extraction of reduced Lagrangian representations~\cite{agranovsky2014improved}\cite{rapp2019void}\cite{sane2020scalable}, post hoc reconstruction~\cite{chandler2015interpolation}\cite{sane2019interpolation}\cite{Jakob20}, and theoretical error analysis~\cite{bujack2015lagrangian}\cite{chandler2016analysis}\cite{hummel2016error}.
-\fix{Could you add some citations for different app areas?}
+%
+%Although the effectiveness of Lagrangian representations for any possible time-varying vector fields that can be produced by a scientific simulation remains an open question, prior theoretical demonstration on analytical, SPH, climate and ocean modeling data, and practical application in ocean activity analysis~\cite{envirvis.20171099}\cite{siegfried2019tropical}, has provided encouraging results.
+%
+%the development of runtime in situ infrastructure for multiphysics simulations has enabled the straightforward extraction of accurate Lagrangian representations via APIs.
+%
+
+An open challenge for time-varying vector field exploration is predicting the uncertainty and variability in efficacy for different analysis techniques.
+%
+Although the effectiveness of Lagrangian representations for any possible time-varying vector fields that can be produced by a scientific simulation remains an open question, prior theoretical demonstration on vector fields including analytical, SPH, climate and ocean modeling data, and practical application in ocean activity analysis~\cite{envirvis.20171099}\cite{siegfried2019tropical}, has provided encouraging results.
+%
+%This is true for prior Lagrangian research.
+%
+Using Lagrangian representations, the quality of reconstruction of a time-varying vector field depends on the vector field itself, as well as configuration specifics such as sampling strategy and frequency of storage.
+%
+Thus, to investigate the potential benefits of Lagrangian representations for a broader range of applications and to gauge its viability in practice, we leverage the recent developments of runtime in situ infrastructure that enable the straightforward extraction via APIs to study Lagrangian representations for cosmology and seisomology applications.   
+%Thus, to broade
+%Thus, the application of Lagrangian representations to a broader range of real-world simulation vector fields, and in practice, is of keen interest to us.
+%
+%Considering reduced Lagrangian representations are currently in their early adoption phase, 
+%Although prior theoretical evaluations have considered a limited set of applications including analytical, SPH, climate and ocean modeling data, and practical applications are limited to ocean modeling~\cite{envirvis.20171099}\cite{siegfried2019tropical}, .
+%
+%Further, prior works have also typically considered theoretical in situ environments, i.e., loaded data sets from disk. 
+%
+%Thus, an existing barrier for wider adoption is the lack of data points from a broader range of real-world simulation vector fields and the viability of the technique in practice.
+%
+
+
+%existing evaluations have considered a limited set of applications
+%
+%
+%
+%
+%Existing research 
+%%
+%%With studies of reduced Lagrangian representations still in relatively early phases of adoption, its application has been demonstrated on a limited set of applications including analytical, SPH, climate and ocean modeling simulations.
+%%
+%%More recently, Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} used embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualize a derived scalar field representing trajectory density.
+%
+%
+%In these works, since the quality of reconstruction has depended on the vector field as well as configuration specifics such as sampling strategy and frequency of storage
+%
+%Across this body of work, 
+%
+%A common thread in many of these studies has been efficacy characteris Lagrangian representations perform
+%
+% the quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
+%
+%
+%
+%
+%Evaluations of reduced Lagrangian representations, have shown that 
+%
+%the quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
+%
+%they have a limited set of applications including analytical, SPH, and climate and ocean modeling simulations. 
+%Although these works have produced increasingly advanced techniques for Lagrangian analysis, they have a limited set of applications including analytical, SPH, and climate and ocean modeling simulations. 
+%
+%
+%an open question is whether Lagrangian representations are effective on other vector fields.
+%
+%A challenge for Lagrangian analysis is 
+%%
+%Time-varying vector fields, however, are complicated in nature and predetermining uncertainty of tim
+%
+%Predicting the uncertainty of time-varying vector fields is challenging and remains an open research question.
+%%
+%Thus, the application of Lagrangian representations to a broad range of real-world simulation vector fields remains an open questions 
+%
+%
+%The quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
+%
+%
+%
+%However, many of hese studies been conducted in theoretical in situ environments
+%What data sets have been considered -> analytical data sets, climate and ocean modeling data, SPH data, Gerris flow solver. 
+%
+%
+%
+%Many of these strategies 
+%The majority ths studies have considered theoretical in situ environments and operated 
+%
+%
+%Existing evaluations of reduced Lagrangian representations, although often conducted in theoretical in situ environments (data is loaded from disk), have been encouraging. 
+%%
+%and show that performance characteristics vary from case to case. 
+%%
+%The quality of reconstruction depends on the vector field as well as configuration specifics such as sampling strategy and frequency of storage. 
+%%
+%
+%
+%\fix{Could you add some citations for different app areas?}
 %Agranovsky et al.~\cite{agranovsky2014improved} proposed computing reduced Lagrangian representations using in situ processing to access the complete spatiotemporal resolution of the simulation.
 %
 %More recently, Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} used embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualize a derived scalar field representing trajectory density.
 %
-Existing evaluations of reduced Lagrangian representations, although often conducted in theoretical in situ environments using analytical data sets where ground truths are known, have been encouraging and show that performance characteristics vary from case to case. 
-%
-%Existing evaluations, although on a limited set of applications and primarily conducted in theoretical in situ settings, are promising.
-%
-Thus, the application of reduced Lagrangian representations to a broader range of real-world simulation vector fields, and in practice, is of keen interest to us.
-\fix{I think we need a better reason that it being interesting to us.  Presumably about enabling these app areas to benefit from Lagrangian.}
+%Existing evaluations of reduced Lagrangian representations, although often conducted in theoretical in situ environments using analytical data sets where ground truths are known, have been encouraging and show that performance characteristics vary from case to case. 
+%%
+%%Existing evaluations, although on a limited set of applications and primarily conducted in theoretical in situ settings, are promising.
+%%
+%\fix{I think we need a better reason that it being interesting to us.  Presumably about enabling these app areas to benefit from Lagrangian.}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.9\linewidth]{Images/sample.pdf}
+\vspace{-4mm}
+\caption{Notional space-time visualization of Lagrangian representations for a time-varying 1D flow. The black trajectories are computed in situ and encode the behavior of the vector field between start time \textit{t$_{s}$} and end time \textit{t$_{e}$}. In a post hoc setting, a Lagrangian-based advection scheme \textit{L}, i.e., a technique to interpolate the extracted data, is used to calculate the trajectory of a new particle p$_{1}$ . The red trajectory is the trajectory reconstructed post hoc and the blue trajectory is the ground truth. The end location of the red trajectory deviates by a margin of error from the ground truth. The quality of reconstruction often depends on the nature of the time-varying vector field.}
+\vspace{-5mm}
+\label{fig:sample}
+\end{figure}
+
 
 %
 %However, existing evaluations of reduced Lagrangian representations are on a limited, and often analytical, set of applications, most set in theoretical in situ settings. %~\cite{agranovsky2014improved}\cite{sane2018revisiting}.
@@ -69,16 +167,22 @@ Thus, the application of reduced Lagrangian representations to a broader range o
 %In this paper, we investigate Lagrangian representations for time-varying vector fields produced by cosmology and seismology simulations in representative HPC settings.
 %
 
-In this paper, our contribution is an investigation of reduced Lagrangian representations to encode the self-gravitating gas dynamics of a cosmology simulation and seismic wave propagation in a seisomology simulation.
+In this paper, our unique contribution is an investigation of Lagrangian representations to encode self-gravitating gas dynamics of a cosmology simulation and seismic wave propagation of a seisomology simulation.
 %
-For the self-gravitating gas dynamics vector field, our experiments show that Lagrangian representations can enable accurate analysis of particle evolution and structure formation in the simulation.
+%We measure the effectiveness of the technique by considering in situ encumbrance and post hoc efficacy.
 %
-Further, we show that reconstruction accuracy statistically improves as temporal sparsity increases, providing an opportunity for increased data reduction.
+%For the self-gravitating gas dynamics vector field, our experiments show that Lagrangian representations can enable accurate analysis of particle evolution for reduced data storage. 
+%structure formation in the simulation.
 %
-For the seismic wave propagation vector field, we find that Lagrangian representations are well suited to capture transient wave patterns in the flow, resulting in accurate reconstructions for several data reduction options.
+%Further, we show that reconstruction accuracy statistically improves as temporal sparsity increases, providing an opportunity for increased data reduction.
 %
-Overall, our experiments show that Lagrangian representations offer high data reductions of the time-varying vector fields considered for a small loss of accuracy, are viable to compute in situ, and should be considered more widely for time-varying vector field analysis.  
-\fix{the only mention of viability is in this last sentence.  Most of it is about accuracy.  Could it become more symmetric?  Should this paragraph introduce the notion of how to evaluate Lagrangian efficacy?}
+%For the seismic wave propagation vector field, we find that Lagrangian representations are well suited to capture transient wave patterns in the flow, resulting in accurate reconstructions for several data reduction options.
+%
+For both applications, our experiments show that Lagrangian representations offer high data reduction of the time-varying vector fields for a small loss of accuracy. 
+%
+Further, our study shows Lagrangian representations are viable to compute in representative HPC environments and should be considered more widely by applications that can benefit from time-varying vector field analysis.
+%Overall, our experiments show that Lagrangian representations offer high data reductions of the time-varying vector fields considered for a small loss of accuracy, are viable to compute in situ, and should be considered more widely for time-varying vector field analysis.  
+%\fix{the only mention of viability is in this last sentence.  Most of it is about accuracy.  Could it become more symmetric?  Should this paragraph introduce the notion of how to evaluate Lagrangian efficacy?}
 %accurate reconstruction of the time evolutions of the simulation  
 %
 %
@@ -95,15 +199,6 @@ Overall, our experiments show that Lagrangian representations offer high data re
 %\item An evaluation of in situ encumbrance in representative settings, i.e., tightly-coupled integration with a simulation and use of HPC resources at scale.
 %\item A benchmarking study to measure in situ encumbrance using Cloverleaf3D.
 %\end{tightItemize}
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=0.9\linewidth]{Images/sample.pdf}
-\vspace{-5mm}
-\caption{Notional space-time visualization of Lagrangian representations for a time-varying 1D flow. The black trajectories are computed in situ and encode the behavior of the vector field between start time \textit{t$_{s}$} and end time \textit{t$_{e}$}. In a post hoc setting, a Lagrangian-based advection scheme \textit{L} is used to interpolate the extracted data and calculate the trajectory of a new particle p$_{1}$ . The red trajectory is the reconstructed trajectory and the blue trajectory is the ground truth.}
-\vspace{-5mm}
-\label{fig:sample}
-\end{figure}
 
 %First, we explore the use of Lagrangian representations to encode particle transport behavior of baryonic matter evolving under self-gravitating gas dynamics in the Nyx cosmology simulation~\cite{almgren2013nyx}.
 %
