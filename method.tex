@@ -8,16 +8,6 @@
 \label{fig:schematic}
 \end{figure}
 
-%This section describes considerations for using and evaluating Lagrangian in situ reduction (L-ISR) for cosmology and seisomology time-varying vector fields. Specifically:
-%\begin{tightItemize}
-%\item Subsection~\ref{sec:instantiation} describes the instantiation we consider.
-%\item Subsection~\ref{sec:evaluation} describes important evaluation criteria.
-%\item Subsection~\ref{sec:workloads} describes important factors in defining workloads.
-%\end{tightItemize}
-%
-%\subsection{Instantiation}
-%\label{sec:instantiation}
-
 This section describes the instantiation we consider for our study.
 %
 Figure~\ref{fig:schematic} shows a high-level description of the Lagrangian in situ reduction post hoc exploration (L-ISR-PHE) workflow. 
@@ -30,9 +20,6 @@ To describe our instantiation, the remainder of this section is divided based on
 %
 
 \noindent\textbf{In Situ Reduction}
-%In the in situ phase, for a data reduction operator without any a priori knowledge, a good strategy is to place samples such that domain coverage is maintained.
-%
-%Based on the in situ system classification in~\cite{childs2020terminology}, our L-ISR system classifies as one with a dedicated API integration, on node proximity, direct access, a time division of execution, automatic operation, and a derived output type.
 %
 Both simulations we considered partitioned space amongst ranks,
 with each rank owning one portion of the vector field.
@@ -49,13 +36,7 @@ Similar to Agranovsky et al.~\cite{agranovsky2014improved}, we used uniform spat
 %
 Thus, we computed sets of temporally non-overlapping basis trajectories over the duration of the simulation.
 %
-%We refer to these trajectories as \textit{basis} trajectories.
-%
 Each set of basis trajectories encodes the behavior of the time-varying vector field over a specific interval of time.
-%
-%To introduce particles at the start of an interval, we use the uniform placement scheme by Agranovsky et al.~\cite{agranovsky2014improved}. 
-%
-%Using a uniform placement and resetting the particle trajectories after an interval helps maintain domain coverage and is simple to implement.
 %
 Our particle termination followed the local Lagrangian flow map model from Sane et al.~\cite{sane2020scalable}, where particles are terminated once they reach the end of the interval or exit the block.
 %
@@ -63,7 +44,6 @@ Our implementation had two main knobs that control the total data storage and qu
 %
 The effect of these settings varies depending on the underlying vector field. 
 %
-%We discuss these in~\ref{sec:workloads}.
 
 We used the Ascent~\cite{Larsen2017Alpine} in situ infrastructure and VTK-m~\cite{moreland2016vtk} library to implement L-ISR. 
 %
@@ -107,66 +87,3 @@ Based on the study of accuracy of various Lagrangian-based advection schemes in~
 We used the CGAL~\cite{fabri2011cgal} library to construct and search the Delaunay triangulation.
 %
 After constructing new pathlines or deriving new scalar fields from the basis trajectories, we used VisIt~\cite{childs2012visit} to generate visualizations.
-
-%\begin{lstlisting}[basicstyle=\footnotesize, label={lst:code}, caption=Ascent example., language=C++] 
-%Ascent ascent;
-%Node ascent_opts;
-%ascent_opts[``runtime/type''] = ``ascent'';
-%ascent.open(ascent_opts);
-%conduit::Node mesh_data;
-%conduit::Node pipelines;
-%pipelines[``pl1/f1/type''] = ``lagrangian'';
-%// filter knobs
-%conduit::Node &lagrangian_params = pipelines[``pl1/f1/params''];
-%lagrangian_params[``field''] = ``velocity'';
-%lagrangian_params[``step_size''] = 0.02; 
-%lagrangian_params[``storage_interval''] = 25; 
-%lagrangian_params[``seed_resolution''] = 8; 
-%conduit::Node actions;
-%conduit::Node &add_pipelines = actions.append();
-%add_pipelines[``action''] = ``add_pipelines'';
-%add_pipelines[``pipelines''] = pipelines;
-%conduit::Node &execute  = actions.append();
-%execute[``action''] = ``execute'';
-%conduit::Node &reset  = actions.append();
-%reset[``action''] = ``reset'';
-%ascent.publish(mesh_data);
-%ascent.execute(actions);
-%ascent.close();
-%\end{lstlisting}
-%
-%
-%We use Ascent to store the complete velocity field at a specified frequency in order to evaluate the traditional Eulerian paradigm.
-%
-%For every Eulerian configuration, we store the full spatial resolution of the simulation domain under consideration.
-%
-
-%\subsection{Evaluation Criteria}
-%\label{sec:evaluation}
-%In this study, we consider the following four evaluation criteria (EC) across the workflow:
-%%
-%\begin{tightEnumerate}
-%\item\textbf{(EC1) In situ reduction time:} the execution time spent by the simulation on data analysis and visualization.
-%\item\textbf{(EC2) In situ reduction memory:} the runtime memory used by in situ processing.
-%\item\textbf{(EC3) Data storage size:} the file storage costs (i.e., bytes).
-%\item\textbf{(EC4) Post hoc exploration accuracy:} the quantitative and qualitative accuracy of new interpolated trajectories or derived fields.
-%\end{tightEnumerate}
-%%
-%
-%\subsection{Workload Factors}
-%\label{sec:workloads}
-%To understand the performance characteristics of L-ISR, we identified four parameters that when varied produce the workloads we want to evaluate for our study:
-%\begin{tightEnumerate}
-%\item\textbf{(WF1) Number of basis particles:} 
-%%We vary the number of basis particles initialized per rank. The number of basis trajectories impacts the cost of particle advection every cycle of the simulation, the size of the data stored to disk and the accuracy of the reconstruction. 
-%%
-%We specify the number of particles initialized using the notation $\textbf{1:X}$, where X is the reduction factor. For example, a 1:8 configuration states that one particle is used for every 8 grid points (12.5\% of the original data size). WF1 impacts every EC.
-%\item\textbf{(WF2) Storage interval:} 
-%%We consider the frequency at which files are stored to disk. Additionally, for the Lagrangian representation, the interval is equal to the integration length of each particle, and can thus, be consequential to the accuracy of reconstruction. 
-%%
-%We use $\textbf{I}$ to denote storage interval. WF2 impacts EC3 and EC4. 
-%\item\textbf{(WF3) Grid size:} 
-%%We consider different grid sizes to measure the in situ encumbrance of varying workloads. In particular, we are interested in the in situ encumbrance when a single compute node is operating on a large number of grid points. An additional benefit of varying the grid size is insight into the variation in simulation cycle time and consequently the percentage of time spent on in situ processing. 
-%WC3 impacts EC1, EC2, and EC3. 
-%\item\textbf{(WF4) Concurrency:} We consider the costs at multiple scales (i.e., number of compute nodes, MPI ranks). Further, the simulation codes described in \ref{sec:simulations} required different parallelization hardware, and thus, between simulation codes we measure the costs of Lagrangian representation extraction using, both, GPUs and CPUs for particle advection. WF4 impacts EC1 and EC2.
-%\end{tightEnumerate}

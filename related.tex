@@ -2,12 +2,12 @@
 \setlength{\abovedisplayskip}{3pt} \setlength{\abovedisplayshortskip}{3pt}
 
 \input{framesofreference.tex}
+\renewcommand{\baselinestretch}{1}
 \vspace{-1mm}
 \subsection{Lagrangian Analysis}
 Within the vector field analysis and visualization community, Lagrangian methods have been increasingly researched in the past decade. 
 %
 In this paper, we focus on the use of Lagrangian methods to store time-varying vector fields in situ and enable subsequent post hoc analysis.
-%The interest in Lagrangian representations is driven by their potential to offer reduced memory footprint and consequently enable post hoc analysis.
 %
 %fueled by temporal sparsity of data, i.e., simulations store data less frequently to avoid high storage costs.
 %
@@ -24,13 +24,7 @@ To maintain domain coverage, the study proposed the use of uniform spatial sampl
 %
 Sane et al.~\cite{sane2018revisiting} studied performance across a range of spatiotemporal configurations when operating using a fixed storage budget.
 %
-%Pascal et al.~\cite{envirvis.20171099,siegfried2019tropical} used embedded routines to compute reduced Lagrangian data in order to explore coastal upwelling activity and visualized a derived scalar field representing trajectory density.
-%However, a shortcoming of both studies is the measure of efficacy using a single quantitative average error for a limited set of applications.
-%
 The experiments in these works were conducted in a theoretical in situ setting, i.e., files were loaded from disk. %rather than integration with a simulation. 
-%
-%Such a theoretical set up fails to capture the cost of invoking in situ processing every cycle in a tightly-coupled system.
-%
 %
 Most recently, Jakob et al.~\cite{Jakob20} trained a DNN to upsample FTLE visualizations derived from reduced Lagrangian representations. 
 %
@@ -39,11 +33,6 @@ To generate training data, they first computed Lagrangian representations of a 2
 However, the grid size of $4\times4$ per rank used in the study is not representative of real-world applications.
 %
 Thus, the current literature lacks in situ encumbrance measurements in representative settings.
-%
-%Our study explores this space by investigating the benefits and limitations of using reduced Lagrangian representations for previously unexplored time-varying vector fields.
-
-%
-%As such, prior works considering reduced Lagrangian representations have been restricted to analytical, ocean or climate data.
 %
 
 Lagrangian representations of a time-varying vector field can be extracted by adopting various strategies.
@@ -70,32 +59,15 @@ Bujack et al.~\cite{bujack2015lagrangian} evaluated the use of parameter curves 
 %
 Lastly, Hummel et al.~\cite{hummel2016error} provided theoretical error bounds for error propagation that can occur when calculating trajectories using Lagrangian representations. 
 %
-%Finally, Jakob et al.~\cite{Jakob20} used DNNs to up-sample FTLE visualizations computed using reduced Lagrangian representations of 2D flow fields. 
-
 
 \vspace{-1mm}
 \subsection{Time-Varying Vector Field Reduction}
-%Within the vector field analysis and visualization community, Lagrangian methods have been increasingly used in the past decade.
-%
-%Lagrangian coherent structures (LCS) are a popular technique to visualize attracting and repelling surfaces and were introduced by Haller et al~\cite{haller2001distinguished, haller2000lagrangian, haller2000finding}.
-%
-%The interest in the technique led to multiple efforts that were aimed at accelerating the computation and visualization of LCS~\cite{garth2007efficient,garth2009visualization,sadlo2007efficient,sadlo2011time}.
-%
-%LCS have also been used for uncertain transient vector field visualization by Guo et al.~\cite{guo2016finite}.
 %
 Although Eulerian representations have been shown to be susceptible to temporal sparsity~\cite{costa2004lagrangian}\cite{Qin2014}\cite{agranovsky2014improved}\cite{sane2018revisiting}, temporal subsampling remains the widely used solution to limit data storage.
 %
 Our study adds to this body of work by using temporal subsampling for comparison.
 %
 Multiple works have proposed single time step vector field reduction strategies while maintaining an Eulerian representation~\cite{lodha2000topology}\cite{lodha2003topology}\cite{theisel2003combining}\cite{tong2012salient}.
-%
-%Lodha et al.~\cite{lodha2000topology} controlled the compression of similar vectors into single vectors representing larger area.
-%
-%Further, Lodha et al.~\cite{lodha2003topology} proposed a top-down topology preserving compression technique.
-%
-%Theisel et al.~\cite{theisel2003combining} computed critical points and viewed the task as a mesh reduction, and later provided a threshold to filter important features~\cite{theisel2003compression}.
-%
-%With the objective of highlighting temporal features of the vector field, Tong et al.~\cite{tong2012salient} compressed the total amount of data steps stored by identifying key time steps.
 %
 Although these techniques could be used to reduce and store data more frequently, they do not inherently address the challenge of increasing temporal sparsity.
 %
@@ -111,11 +83,3 @@ Thus, ZFP allowed a limited amount of compression to vector field data without i
 The technique provided an average reduction of 30\% of total uncompressed vector field data, with regions of high gradient resulting in less compression. 
 %
 Overall, Orf referred to the use of lossy compression as unfortunate but necessary.
-
-%In this paper, using the same temporal sampling frequency as the Lagrangian representations, we measure the reconstruction accuracy achieved by temporal subsampling for reference.
-%Although these techniques are valuable, they do not sufficiently address the challenge of increasing temporal sparsity.
-%
-%\fix{I think we need a better statement here --- could reduce to get higher temporal sparsity.  And yet don't want to compare with that.}
-%For a baseline comparison in our empirical study, we store data in an Eulerian representation at full resolution and use temporal subsampling.
-%
-%This paper presents an empirical study of the in situ encumbrance and performance tradeoffs when executing \textit{in situ Lagrangian analysis} in a practical setting, i.e., in situ on a supercomputer.

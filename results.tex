@@ -4,21 +4,18 @@ Sections~\ref{sec:nyx} and~\ref{sec:sw4} present findings from our study investi
 %
 %Section~\ref{sec:cloverleaf3d} contains results from our benchmarking study.
 %
-%We organize our results by discussing the use of Lagrangian representations for the cosmology and seismology () applications, and  .
-%
-Tables~\ref{table:nyx_encumbrance} and~\ref{table:sw4_encumbrance} provide information pertaining to in situ encumbrance experiments, such as concurrency information, spatial dimensions, Sim$_{cycle}$, number of particles, \textbf{InSituMem}, \textbf{Step}, and \textbf{DAV\%}, for each application. 
+Tables~\ref{table:nyx_encumbrance} and~\ref{table:sw4_encumbrance} provide information pertaining to in situ encumbrance experiments, such as concurrency information, spatial dimensions, Sim$_{cycle}$, number of particles per compute node, \textbf{InSituMem} per compute node, \textbf{Step}, and \textbf{DAV\%}, for each application. 
 %
 Figure~\ref{fig:insitucost} shows the execution time per cycle for all the in situ encumbrance experiments. %from both applications.  
 %
 \input{insitucost.tex}
 %
-Figures~\ref{fig:nyx_violinplot},~\ref{fig:nyx_figure},~\ref{fig:sw4_violinplot}, and ~\ref{fig:sw4_figure} show the results of our post hoc efficacy evaluation.
+Figures~\ref{fig:nyx_violinplot},~\ref{fig:nyx_figure},~\ref{fig:sw4_violinplot}, and ~\ref{fig:sw4_figure} show the results of our post hoc accuracy evaluation.
 %
 For each application, the figures are annotated with configuration specifics such as the \textbf{DS}, \textbf{1:X}, and \textbf{I}.
 %
 Further, Lagrangian and Eulerian tests are distinguished explicitly in the captions or are labeled L$T$ and E$T$, respectively, where $T$ is the test number.
 %
-%We refer to these tables and figures in the discussion that follows. 
 
 \vspace{-1mm}
 \subsection{Nyx Cosmology Simulation}
@@ -47,17 +44,12 @@ Overall, considering the longer Sim$_{cycle}$ times for the Nyx simulation, and 
 \input{nyx_violinplot.tex}
 \input{nyx_figure.tex}
 
-\noindent\textbf{Post Hoc Efficacy}
+\noindent\textbf{Post Hoc Accuracy}
 To evaluate the usefulness of Lagrangian representations to encode time-varying self-gravitating gas dynamics, we considered a $69^{3}$ grid over 400 cycles, three options for data reduction (1:1, 1:8, 1:27) and four options for \textbf{I}~(25, 50, 100, 200).
 %
 We constructed pathlines for 50,000 randomly placed particles during post hoc analysis.
 %
-%We measure the error of reconstruction of each pathline by comparing to ground truth trajectories.
-%
-%Additionally, we compute pathlines using Eulerian representations at full spatial resolution and same options for \textbf{I}.
-%
 We visualize the distribution of reconstruction error for all tests in Figure~\ref{fig:nyx_violinplot}.
-%We measure the error or reconstruction of each pathline. and visualize the distribution in Figure~\ref{} along with  
 %
 
 The self-gravitating gas dynamics of this simulation produce a vector field that captures the transport of randomly distributed particles to multiple high-density clusters.
@@ -68,22 +60,13 @@ For this data, we found that Eulerian temporal subsampling performs better for s
 %
 This result can be expected given reconstruction using an Eulerian representation and fourth-order Runge Kutta interpolation remain more accurate than second-order barycentric coordinates interpolation employed to interpolate Lagrangian representations~\cite{bujack2015lagrangian}\cite{hummel2016error}.
 %
-%This can be expected for two reasons: 1) for small values of \textbf{I}, trajectories computed using fourth-order RK4 and Eulerian representations can remain more accurate than second-order barycentric coordinates interpolation and Lagrangian representations (although these are computed in situ using fourth-order RK4), and 2) use of several short Lagrangian flow maps can result in a higher error propagation and accumulation~\cite{bujack2015lagrangian,hummel2016error}.
-%
 However, as the value of \textbf{I} increases, the distribution of error for the Lagrangian tests indicates that a larger percentage of samples are reconstructed more accurately.
 %
 In particular, this is true when a high spatial sampling resolution is used.
 %
 Thus, particle evolution in this cosmology simulation can be tracked more accurately when a dense set of basis trajectories integrated for a long duration are interpolated.
 %
-%
-%The Lagrangian representation computed in situ using RK4 encodes the behavior over an interval of time more accurately for the majority of samples.
-%
 In contrast, Eulerian representations become less effective at reconstructing the vector field due to increased numerical approximation.
-%
-%With regard to spatial sampling resolution, for the grid size we consider, we find that reducing the number of samples has a considerable impact on the efficacy of reconstruction.
-%
-%This indicates that small changes in starting location can result in particles transporting to different clusters.
 %
 
 We used pathlines with manually set transfer functions to visualize the evolution and clustering of particles in regions of high density.
@@ -91,12 +74,6 @@ We used pathlines with manually set transfer functions to visualize the evolutio
 The total size of the simulation vector field data used to compute the ground truth is 5.3GB.
 %
 We visualized a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
-%To visualize the evolution and clustering of particles in regions of high density, we visualize a random subset of 10,000 pathlines in Figure~\ref{fig:nyx_figure} for configurations with \textbf{I} set to 25.
-%
-%We believe these configurations provide a representative idea of reconstruction accuracy
-%
-%We found that Lagrangian configurations (L04 to L12) using larger values of \textbf{I} are more accurate statistically~(Figure~\ref{fig:nyx_violinplot}).
-%
 %
 The Lagrangian representations demonstrate the ability to closely reconstruct regions where dense clusters are formed while requiring a fraction of the total simulation data size.
 %
@@ -115,28 +92,19 @@ For all L-ISR workloads tested, the execution time required per cycle remained u
 %
 The cost for performing L-ISR was most dependent on the number of particles and only slightly impacted by increasing grid sizes.
 %
-%Figure~\ref{fig:insitucost} provides insight regarding performance using GPUs and CPUs. 
 %
 Referencing Figure~\ref{fig:insitucost}, although the SW4 experiments used six GPUs, we found execution time to be slower than Nyx experiments due to the use of shared memory by multiple ranks~(each has its own data block) and the high cost of launching kernels on the GPU for limited amounts of computation~(each basis particle advances by only a single step/cycle each invocation). 
-%
-%Increasing grid sizes, however, typically result in longer \textbf{Sim$_{cycle}$} times, and thus, lower \textbf{DAV\%}.
-%
-%
-%DAV\% was closely related to both the Sim$_{cycle}$ and \textbf{Step} cost.
-%
-%Using fixed concurrency, fixed data reduction factor, and varying grid sizes, we observed \textbf{DAV\%} decrease from 11.67\% to 4.365\% as the grid size increased.
-%
-%Using fixed concurrency, fixed grid size, and varying data reduction factor, we observed \textbf{DAV\%} increase from 1.201\% to 6.175\% as the number of particles increased.
 %
 \input{timings_sw4.tex}
 
 \input{sw4_violinplot.tex}
 \input{sw4_figure.tex}
 
-\noindent\textbf{Post Hoc Efficacy}
+\noindent\textbf{Post Hoc Accuracy}
 We studied the reconstruction of the time-varying displacement vector field encoding wave propagation by considering four options for data reduction~(1:1, 1:8, 1:27, 1:64) and one option for \textbf{I}~(250).
 %
-The ground truth was computed using a $381\times170\times70$ grid and 2000 simulation cycles required 245 GB.
+The ground truth was computed using data defined on a regular mesh containing 4.5M grid points over 2000 simulation cycles and required 245 GB.
+%The ground truth was computed using a $381\times170\times70$ grid and 2000 simulation cycles required 245 GB.
 %
 The displacement was highest near the epicenter and reduced as waves propagate further away.
 %
